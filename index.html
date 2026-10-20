@@ -597,7 +597,18 @@
   <script>
     const ADMIN_USER = "DIEGO";
     const ADMIN_PASS = "123456789";
-    const GITHUB_REPO = "briandejesussss-max/diegoscents";
+    // El repo se detecta solo desde la dirección del sitio (usuario.github.io/repositorio).
+    // Si algún día lo alojas en otro dominio, escribe aquí "usuario/repositorio".
+    const GITHUB_REPO_MANUAL = "";
+    const GITHUB_REPO = (() => {
+      if (GITHUB_REPO_MANUAL) return GITHUB_REPO_MANUAL;
+      const h = location.hostname;
+      if (h.endsWith('.github.io')) {
+        const owner = h.split('.')[0], seg = location.pathname.split('/')[1];
+        return `${owner}/${seg && !seg.includes('.') ? seg : owner + '.github.io'}`;
+      }
+      return "briandejesussss-max/diegoscents";
+    })();
 
     let storeConfig = {
       name: "DIEGO SCENTS",
@@ -821,7 +832,7 @@ function openTokenModal() {
             closeTokenModal();
           } else {
             if (msg) {
-              msg.textContent = 'El token es válido pero no tiene permiso de escritura (falta la casilla "repo").';
+              msg.textContent = `El token es válido pero no tiene permiso de escritura en ${GITHUB_REPO}. Revisa que el token sea de la cuenta dueña de ese repositorio y tenga Contents: Read and write (o repo).`;
               msg.classList.remove('hidden');
             }
           }
