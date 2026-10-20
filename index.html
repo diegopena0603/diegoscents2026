@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DIEGO SCENTS - Catálogo Oficial</title>
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.469.0"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +41,18 @@
     .luxury-card:hover .bottle-img { transform: scale(1.08) translateY(-4px); }
     .bottle-img { transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
 
+    #print-sheet { display: none; }
+    .trust-chip { display: flex; align-items: flex-start; gap: .75rem; padding: 1rem; border-radius: 1rem; background: rgba(16,18,27,.9); border: 1px solid rgba(212,175,55,.25); }
+    .info-card { background: #0E1017; border: 1px solid rgba(63,63,70,.6); border-radius: 1rem; padding: 1rem; }
+    .chip-a { background: rgba(18,20,31,.9); border: 1px solid rgba(63,63,70,.8); color: #d4d4d8; font-weight: 600; font-size: 9px; padding: 2px 8px; border-radius: 9999px; }
+    .chip-b { background: rgba(212,175,55,.15); border: 1px solid rgba(212,175,55,.35); color: #F1D779; font-weight: 600; font-size: 9px; padding: 2px 8px; border-radius: 9999px; }
+    .inp { width: 100%; background: #181B26; border: 1px solid #3f3f46; border-radius: .75rem; padding: .4rem .75rem; color: #fff; font-size: 12px; }
+    .inp:focus { outline: none; border-color: #D4AF37; }
+    .lbl { display: block; color: #d4d4d8; font-weight: 600; margin-bottom: .25rem; }
+    .tab-btn { padding: .4rem .9rem; border-radius: .75rem; background: #181B26; border: 1px solid #3f3f46; color: #a1a1aa; font-weight: 600; }
+    .tab-on { background: #D4AF37; border-color: #D4AF37; color: #000; }
+    .qty-btn { width: 1.5rem; height: 1.5rem; border-radius: .5rem; background: #232738; color: #fff; font-weight: 700; }
+
     @page { size: A4 portrait; margin: 0 !important; }
     @media print {
       html, body {
@@ -54,10 +66,10 @@
         height: 297mm !important;
       }
       .no-print, #top-navbar, #hero-banner, #toast-container, #fragrance-modal,
-      #store-modal, #token-modal, #login-modal, #cart-drawer, #search-section, #product-page-view, button {
+      #store-modal, #token-modal, #inventory-modal, #login-modal, #cart-drawer, #search-section, #product-page-view, button {
         display: none !important;
       }
-      #catalog-sheet { display: block !important; width: 210mm !important; margin: 0 !important; padding: 0 !important; }
+      #print-sheet { display: block !important; width: 210mm !important; margin: 0 !important; padding: 0 !important; }
       .print-page {
         page-break-after: always !important;
         break-after: page !important;
@@ -128,6 +140,11 @@
             <span>Datos</span>
           </button>
 
+          <button onclick="openInventoryModal()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-xs text-zinc-200 border border-zinc-700/80 flex items-center gap-1.5 transition">
+            <i data-lucide="package-plus" class="w-3.5 h-3.5 text-[#D4AF37]"></i>
+            <span>Inventario</span>
+          </button>
+
           <button onclick="openFragranceModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#F1D779] text-black font-bold text-xs flex items-center gap-1.5 shadow-md hover:brightness-110 active:scale-95 transition">
             <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[3]"></i>
             <span>+ Perfume</span>
@@ -139,7 +156,7 @@
           <span>Bolsa (<span id="cart-count">0</span>)</span>
         </button>
 
-        <button onclick="window.print()" class="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold flex items-center gap-1.5 border border-[#D4AF37]/40 transition shadow active:scale-95">
+        <button onclick="printCatalog()" class="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold flex items-center gap-1.5 border border-[#D4AF37]/40 transition shadow active:scale-95">
           <i data-lucide="printer" class="w-3.5 h-3.5 text-[#D4AF37]"></i>
           <span>Guardar PDF</span>
         </button>
@@ -148,85 +165,77 @@
     </div>
   </header>
 
-  <!-- HERO -->
-  <section id="hero-banner" class="no-print hero-glow border-b border-zinc-900/80 px-4 py-8 relative overflow-hidden">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-      <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/35 text-[#F1D779] text-[10px] font-bold tracking-widest uppercase mb-2.5">
-          <span class="w-2 h-2 rounded-full bg-[#D4AF37] animate-ping"></span>
-          Decants 100% Originales • Vidrio Hermético
-        </div>
-        <h2 id="hero-tagline" class="font-heading text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-          TU MUESTRA DE LUJO AL MEJOR PRECIO.
-        </h2>
-        <p id="hero-notes" class="text-xs sm:text-sm text-zinc-400 mt-2 max-w-xl leading-relaxed">
-          Envios express a toda la república y entregas personales en Izúcar de Matamoros, Puebla.
-        </p>
+  <!-- BANNER DE BIENVENIDA -->
+  <section id="hero-banner" class="no-print hero-glow border-b border-zinc-900/80 px-4 py-10 sm:py-14">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">Bienvenido a <span id="hero-store-name">DIEGO SCENTS</span></h2>
+      <p id="hero-tagline" class="text-sm sm:text-base text-[#F1D779] mt-3 font-semibold"></p>
+      <div class="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+        <div class="trust-chip"><i data-lucide="shield-check" class="w-6 h-6 text-[#D4AF37] shrink-0"></i><div><strong class="block text-white text-sm">Página confiable</strong><span class="text-xs text-zinc-400">Atención directa por WhatsApp en cada pedido.</span></div></div>
+        <div class="trust-chip"><i data-lucide="truck" class="w-6 h-6 text-[#D4AF37] shrink-0"></i><div><strong class="block text-white text-sm">Envío a todo México</strong><span class="text-xs text-zinc-400">Paquetería a toda la república.</span></div></div>
+        <div class="trust-chip"><i data-lucide="badge-check" class="w-6 h-6 text-[#D4AF37] shrink-0"></i><div><strong class="block text-white text-sm">Productos 100% originales</strong><span class="text-xs text-zinc-400">Decants en vidrio hermético.</span></div></div>
       </div>
-
-      <div class="bg-[#10121B]/90 backdrop-blur-md border border-[#D4AF37]/20 rounded-2xl p-4 flex flex-col gap-2 shrink-0 w-full md:w-auto shadow-2xl">
-        <span class="text-[11px] font-bold text-[#D4AF37] flex items-center gap-1.5">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Rendimiento por Frasco
-        </span>
-        <div class="grid grid-cols-3 gap-2 text-center text-xs">
-          <div class="bg-[#161826] p-2 rounded-xl border border-zinc-800">
-            <span class="text-[10px] text-zinc-400 block font-semibold">3 ml</span>
-            <strong class="text-white text-xs">~45 sprays</strong>
-          </div>
-          <div class="bg-gradient-to-b from-[#D4AF37]/20 to-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/50 shadow-inner">
-            <span class="text-[10px] text-[#F1D779] block font-semibold">5 ml</span>
-            <strong class="text-[#FFF1B0] text-xs">~75 sprays</strong>
-          </div>
-          <div class="bg-[#161826] p-2 rounded-xl border border-zinc-800">
-            <span class="text-[10px] text-zinc-400 block font-semibold">10 ml</span>
-            <strong class="text-white text-xs">~150 sprays</strong>
-          </div>
-        </div>
+      <div class="mt-7 flex flex-wrap justify-center gap-3">
+        <a href="#catalogo" class="px-5 py-2.5 rounded-xl bg-[#D4AF37] hover:bg-[#c49f2f] text-black text-sm font-bold transition">Ver catálogo</a>
+        <button onclick="openStoreWhatsApp()" class="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black text-sm font-bold flex items-center gap-2 transition"><i data-lucide="message-circle" class="w-4 h-4"></i>Escríbenos por WhatsApp</button>
       </div>
     </div>
   </section>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-1 max-w-6xl w-full mx-auto p-4 flex flex-col gap-5">
-    <section id="search-section" class="no-print bg-[#0E1017]/90 backdrop-blur border border-zinc-800/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-md">
-      <div class="flex items-center gap-2.5 flex-1 min-w-[240px]">
-        <div class="relative w-full">
-          <i data-lucide="search" class="w-4 h-4 text-zinc-400 absolute left-3.5 top-3"></i>
-          <input 
-            type="text" 
-            id="search-input" 
-            oninput="filterCatalog()"
-            placeholder="Buscar por fragancia, casa olfativa o notas..." 
-            class="w-full bg-[#151824] border border-zinc-700/80 rounded-xl pl-10 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition"
-          >
-        </div>
-        <select 
-          id="filter-brand" 
-          onchange="filterCatalog()" 
-          class="bg-[#151824] border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-200 focus:outline-none max-w-[180px]">
-          <option value="ALL">Todas las Casas</option>
-        </select>
+  <!-- INFORMACIÓN POR APARTADOS -->
+  <section id="info-sections" class="no-print max-w-6xl w-full mx-auto px-4 pt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="info-card">
+      <h3 class="flex items-center gap-2 text-sm font-bold text-white mb-2"><i data-lucide="truck" class="w-4 h-4 text-[#D4AF37]"></i>Envíos y entregas</h3>
+      <p id="info-notes" class="text-xs text-zinc-400 leading-relaxed"></p>
+    </div>
+    <div class="info-card">
+      <h3 class="flex items-center gap-2 text-sm font-bold text-white mb-2"><i data-lucide="sparkles" class="w-4 h-4 text-[#D4AF37]"></i>Rendimiento por frasco</h3>
+      <div class="grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="bg-[#161826] p-2 rounded-xl border border-zinc-800"><span class="text-[10px] text-zinc-400 block font-semibold">3 ml</span><strong class="text-white text-xs">~45 sprays</strong></div>
+        <div class="bg-gradient-to-b from-[#D4AF37]/20 to-[#D4AF37]/5 p-2 rounded-xl border border-[#D4AF37]/50"><span class="text-[10px] text-[#F1D779] block font-semibold">5 ml</span><strong class="text-[#FFF1B0] text-xs">~75 sprays</strong></div>
+        <div class="bg-[#161826] p-2 rounded-xl border border-zinc-800"><span class="text-[10px] text-zinc-400 block font-semibold">10 ml</span><strong class="text-white text-xs">~150 sprays</strong></div>
       </div>
+    </div>
+    <div class="info-card">
+      <h3 class="flex items-center gap-2 text-sm font-bold text-white mb-2"><i data-lucide="message-circle" class="w-4 h-4 text-[#D4AF37]"></i>Contacto</h3>
+      <a id="info-wa" href="#" target="_blank" rel="noopener" class="block text-xs text-white font-semibold hover:text-[#F1D779]"></a>
+      <p class="text-xs text-zinc-400 mt-1 flex items-center gap-1.5"><i data-lucide="instagram" class="w-3.5 h-3.5 text-[#D4AF37]"></i><span id="info-ig"></span></p>
+    </div>
+  </section>
 
-      <div class="flex items-center gap-2">
-        <select id="currency-symbol" onchange="renderCatalog()" class="bg-[#151824] border border-zinc-700/80 text-xs text-white rounded-xl px-3 py-2 focus:outline-none">
-          <option value="$">$ (MXN)</option>
-          <option value="USD $">USD $</option>
-        </select>
-      </div>
-    </section>
-
-    <!-- ÁREA DE HOJAS DEL CATÁLOGO -->
-    <div class="w-full flex justify-center">
-      <div id="catalog-sheet" class="w-full max-w-[860px]"></div>
+  <!-- CATÁLOGO -->
+  <main id="catalogo" class="flex-1 max-w-6xl w-full mx-auto p-4 flex flex-col gap-4">
+    <div id="catalog-head" class="no-print">
+      <h2 class="font-heading text-xl font-extrabold text-white">Catálogo</h2>
+      <p id="catalog-count" class="text-xs text-zinc-500"></p>
     </div>
 
-    <div id="empty-state" class="hidden py-20 text-center">
+    <section id="search-section" class="no-print bg-[#0E1017]/90 backdrop-blur border border-zinc-800/80 rounded-2xl p-3 flex items-center gap-2.5 shadow-md">
+      <div class="relative flex-1 min-w-[200px]">
+        <i data-lucide="search" class="w-4 h-4 text-zinc-400 absolute left-3.5 top-3"></i>
+        <input type="text" id="search-input" oninput="filterCatalog()" placeholder="Buscar por fragancia, casa olfativa o notas..." class="w-full bg-[#151824] border border-zinc-700/80 rounded-xl pl-10 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#D4AF37] transition">
+      </div>
+      <select id="filter-brand" onchange="filterCatalog()" class="bg-[#151824] border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-200 focus:outline-none max-w-[150px]">
+        <option value="ALL">Todas las Casas</option>
+      </select>
+    </section>
+
+    <div id="catalog-grid" class="no-print grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+    <div id="load-more-wrap" class="no-print text-center hidden">
+      <button id="load-more-btn" onclick="loadMore()" class="px-6 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-[#D4AF37]/40 text-[#F1D779] text-xs font-bold transition"></button>
+    </div>
+
+    <div id="empty-state" class="no-print hidden py-20 text-center">
       <i data-lucide="package-search" class="w-12 h-12 text-zinc-600 mx-auto mb-2"></i>
       <h3 class="text-sm font-semibold text-zinc-300">No se encontraron fragancias</h3>
       <p class="text-xs text-zinc-500 mt-1">Intenta con otro término de búsqueda.</p>
     </div>
+
+    <div id="print-sheet"></div>
   </main>
+
+  <footer class="no-print border-t border-zinc-900 px-4 py-6 text-center text-[11px] text-zinc-500"><span id="footer-text"></span></footer>
 
   <!-- PANTALLA COMPLETA DE DETALLE DE PRODUCTO -->
   <div id="product-page-view" class="no-print fixed inset-0 z-50 bg-[#060709]/95 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
@@ -314,7 +323,7 @@
           <i data-lucide="key" class="w-4 h-4 text-[#D4AF37]"></i>
           Conexión Automática con GitHub
         </h3>
-        <p class="text-[11px] text-zinc-400 mt-1">Ingresa tu Personal Access Token con permiso de escritura (scope <code class="text-amber-300">repo</code>). Los cambios se guardarán automáticamente en tu repositorio.</p>
+        <p class="text-[11px] text-zinc-400 mt-1">Ingresa tu Personal Access Token con permiso de escritura (clásico: scope <code class="text-amber-300">repo</code>; fine-grained: Contents → Read and write sobre este repositorio). Los cambios se guardarán automáticamente en tu repositorio.</p>
       </div>
 
       <form onsubmit="saveGitHubToken(event)" class="space-y-3">
@@ -362,7 +371,7 @@
         <span id="cart-total-price" class="text-base text-[#D4AF37] font-extrabold">$0</span>
       </div>
 
-      <button onclick="sendOrderViaWhatsApp()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black font-extrabold flex items-center justify-center gap-2 shadow-lg transition">
+      <button id="btn-send-order" onclick="sendOrderViaWhatsApp()" class="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-black font-extrabold flex items-center justify-center gap-2 shadow-lg transition">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
         <span>Enviar Pedido a WhatsApp</span>
       </button>
@@ -459,6 +468,11 @@
         </div>
 
         <div>
+          <label class="block font-medium text-zinc-300 mb-1">Precio del frasco completo (opcional)</label>
+          <input type="number" id="frag-price-piece" min="0" class="w-full bg-[#181B26] border border-zinc-700 rounded-xl px-3 py-1.5 text-white focus:outline-none">
+        </div>
+
+        <div>
           <label class="block font-medium text-zinc-300 mb-1">Notas Olfativas</label>
           <textarea id="frag-notes" rows="2" class="w-full bg-[#181B26] border border-zinc-700 rounded-xl px-3 py-1.5 text-white focus:outline-none"></textarea>
         </div>
@@ -514,6 +528,70 @@
     </div>
   </div>
 
+<!-- GESTOR DE INVENTARIO Y VENTAS -->
+  <div id="inventory-modal" class="no-print fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-start justify-center p-3 overflow-y-auto text-xs">
+    <div class="bg-[#10121A] border border-zinc-700 rounded-2xl w-full max-w-2xl p-5 relative my-auto">
+      <button onclick="closeInventoryModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 class="font-heading text-base font-bold text-white">Inventario y ventas</h3>
+      <div class="flex gap-2 my-3">
+        <button id="tab-inv" onclick="invTab('inv')" class="tab-btn tab-on">Inventario</button>
+        <button id="tab-sale" onclick="invTab('sale')" class="tab-btn">Aplicar venta</button>
+      </div>
+
+      <div id="pane-inv">
+        <form onsubmit="applyInventory(event)" class="space-y-3">
+          <div><label class="lbl">Perfume</label><select id="inv-frag" onchange="invOnSelect()" class="inp"></select></div>
+          <div id="inv-new-fields" class="hidden p-3 rounded-xl bg-[#141622] border border-[#D4AF37]/30 grid grid-cols-2 gap-2">
+            <div><label class="lbl">Nombre</label><input id="inv-name" class="inp"></div>
+            <div><label class="lbl">Marca / Casa</label><input id="inv-brand" class="inp"></div>
+            <div><label class="lbl">Concentración</label><input id="inv-conc" placeholder="Eau de Parfum" class="inp"></div>
+            <div><label class="lbl">Categoría</label><select id="inv-gender" class="inp"><option>Unisex</option><option>Masculino</option><option>Femenino</option></select></div>
+            <div class="col-span-2 grid grid-cols-4 gap-2">
+              <div><label class="lbl">$ 3 ml</label><input id="inv-p3" type="number" min="0" class="inp"></div>
+              <div><label class="lbl">$ 5 ml</label><input id="inv-p5" type="number" min="0" class="inp"></div>
+              <div><label class="lbl">$ 10 ml</label><input id="inv-p10" type="number" min="0" class="inp"></div>
+              <div><label class="lbl">$ Frasco</label><input id="inv-pp" type="number" min="0" class="inp"></div>
+            </div>
+          </div>
+          <p id="inv-current" class="text-zinc-400"></p>
+          <div class="grid grid-cols-3 gap-2">
+            <div><label class="lbl">Piezas (frascos)</label><input id="inv-pieces" type="number" min="0" step="1" class="inp"></div>
+            <div><label class="lbl">ml para decantar</label><input id="inv-ml" type="number" min="0" step="0.5" class="inp"></div>
+            <div><label class="lbl">ml por pieza</label><input id="inv-bottleml" type="number" min="0" step="1" placeholder="Ej: 100" class="inp"></div>
+          </div>
+          <div class="flex gap-2 items-end">
+            <div class="flex-1"><label class="lbl">Operación</label><select id="inv-mode" class="inp"><option value="add">Sumar al inventario</option><option value="set">Fijar total (corregir)</option></select></div>
+            <button type="submit" class="px-4 py-2 rounded-xl bg-[#D4AF37] text-black font-bold">Guardar inventario</button>
+          </div>
+        </form>
+        <div class="mt-3 pt-3 border-t border-zinc-800 flex gap-2 items-end">
+          <div class="flex-1"><label class="lbl">Abrir piezas para decantar (se pasan a ml)</label><input id="inv-open" type="number" min="1" step="1" placeholder="Piezas a abrir" class="inp"></div>
+          <button onclick="openPieces()" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-600">Abrir</button>
+        </div>
+        <div id="inv-table" class="mt-4 max-h-56 overflow-y-auto space-y-1"></div>
+      </div>
+
+      <div id="pane-sale" class="hidden space-y-3">
+        <div>
+          <label class="lbl">Pega el mensaje del pedido que llegó por WhatsApp</label>
+          <textarea id="sale-paste" rows="3" class="inp"></textarea>
+          <button onclick="readOrder()" class="mt-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-600">Leer pedido</button>
+        </div>
+        <div class="p-3 rounded-xl bg-[#0E1017] border border-zinc-800">
+          <span class="lbl">O registra una venta manual (mostrador)</span>
+          <div class="grid grid-cols-4 gap-2 items-end">
+            <select id="sale-frag" class="inp col-span-2"></select>
+            <select id="sale-size" class="inp"><option value="3ml">3 ml</option><option value="5ml">5 ml</option><option value="10ml">10 ml</option><option value="P">Frasco</option></select>
+            <input id="sale-qty" type="number" min="1" value="1" class="inp">
+          </div>
+          <button onclick="addManualLine()" class="mt-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-600">Agregar a la venta</button>
+        </div>
+        <div id="sale-preview"></div>
+        <div><span class="lbl">Últimas ventas aplicadas</span><div id="sale-log" class="space-y-1"></div></div>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container" class="no-print fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <script>
@@ -532,25 +610,48 @@
 
     let fragrances = [];
     let cart = [];
+    let salesLog = [];
+    let dataRev = 0;
+    let shownCount = 10;
+    let currentPV = null;
+    let pendingOrder = null;
     let isAdminLoggedIn = false;
-    const ITEMS_PER_PAGE = 4;
+    const PAGE_SIZE = 10;          // perfumes visibles por tanda en el inicio
+    const PRINT_PER_PAGE = 4;      // perfumes por hoja A4 al guardar PDF
+    const SIZES = ["3ml", "5ml", "10ml"];
+    const DATA_FILE = "R9.json";
+    const GITHUB_BRANCH = "";      // vacío = rama por defecto del repositorio (main o master)
+
+    const $ = id => document.getElementById(id);
+    const val = id => $(id).value.trim();
+    const num = v => Math.max(0, parseFloat(v) || 0);
+    const r1 = n => Math.round(n * 10) / 10;
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const money = v => '$' + Math.round(v);
+    const lowMl = () => storeConfig.lowMl || 15;
+    const getToken = () => (localStorage.getItem('aura_gh_token') || '').trim();
+    const waUrl = text => `https://wa.me/${String(storeConfig.whatsapp).replace(/\D/g, '')}${text ? '?text=' + encodeURIComponent(text) : ''}`;
+    function openStoreWhatsApp() { window.open(waUrl('¡Hola! Quiero más información sobre sus perfumes.'), '_blank'); }
 
     async function initApp() {
       isAdminLoggedIn = sessionStorage.getItem('aura_is_admin') === 'true';
       updateAdminUI();
-
       try {
-        const storedStore = localStorage.getItem('aura_store_config');
-        if (storedStore) storeConfig = { ...storeConfig, ...JSON.parse(storedStore) };
-        const storedFrag = localStorage.getItem('aura_fragrances');
-        if (storedFrag && JSON.parse(storedFrag).length > 0) {
-          fragrances = JSON.parse(storedFrag);
-        }
-      } catch(e) {}
-
-      // Carga directa con anti-caché de GitHub Pages
+        const s = localStorage.getItem('aura_store_config');
+        if (s) storeConfig = { ...storeConfig, ...JSON.parse(s) };
+        const f = JSON.parse(localStorage.getItem('aura_fragrances') || '[]');
+        if (Array.isArray(f)) fragrances = f;
+        salesLog = JSON.parse(localStorage.getItem('aura_sales') || '[]');
+        dataRev = parseInt(localStorage.getItem('aura_rev')) || 0;
+      } catch (e) {}
+      renderAll();
       await loadJsonData();
+      renderAll();
+      // Si quedaron cambios sin subir (falló la red), se reintenta al abrir como admin
+      if (isAdminLoggedIn && getToken() && localStorage.getItem('aura_dirty') === '1') syncToGitHub(true);
+    }
 
+    function renderAll() {
       updateStoreBrandHeader();
       populateBrandFilter();
       renderCatalog();
@@ -558,123 +659,124 @@
       lucide.createIcons();
     }
 
+    // Aplica datos remotos solo si no son más viejos que los locales (evita pisar cambios recién hechos)
+    function applyData(d) {
+      if (!d || (d.rev || 0) < dataRev) return false;
+      if (d.store) storeConfig = { ...storeConfig, ...d.store };
+      if (Array.isArray(d.fragrances)) fragrances = d.fragrances;
+      if (Array.isArray(d.salesLog)) salesLog = d.salesLog;
+      dataRev = d.rev || 0;
+      saveLocalData();
+      return true;
+    }
+
+    // Lectura rápida desde GitHub Pages (con anti-caché)
     async function loadJsonData() {
       try {
-        // Anti-caché con timestamp para leer siempre la versión recién commiteada
-        const res = await fetch(`./R9.json?t=${Date.now()}`, { cache: 'no-store' });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.store) storeConfig = { ...storeConfig, ...data.store };
-          if (data.fragrances && data.fragrances.length > 0) {
-            fragrances = data.fragrances;
-            saveLocalData();
-          }
-        }
+        const res = await fetch(`./${DATA_FILE}?t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) applyData(await res.json());
       } catch (e) {
-        console.warn("R9.json remoto no localizado aún, usando datos locales:", e);
+        console.warn("No se pudo leer " + DATA_FILE + ", se usan datos locales:", e);
       }
+    }
+
+    // Lectura al instante desde la API de GitHub (Pages tarda 1-2 min en reflejar un commit).
+    // Se usa antes de validar una compra o aplicar una venta.
+    async function fetchLatest() {
+      const token = getToken();
+      try {
+        const r = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${DATA_FILE}${GITHUB_BRANCH ? '?ref=' + GITHUB_BRANCH : ''}`, {
+          cache: 'no-store',
+          headers: { 'Accept': 'application/vnd.github.raw+json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+        });
+        if (r.ok) { applyData(JSON.parse(await r.text())); return true; }
+      } catch (e) {}
+      await loadJsonData();
+      return false;
     }
 
     function saveLocalData() {
       try {
         localStorage.setItem('aura_fragrances', JSON.stringify(fragrances));
         localStorage.setItem('aura_store_config', JSON.stringify(storeConfig));
-      } catch(e) {}
+        localStorage.setItem('aura_sales', JSON.stringify(salesLog));
+        localStorage.setItem('aura_rev', String(dataRev));
+      } catch (e) {}
     }
 
-    // SINCRONIZACIÓN AUTOMÁTICA REPARADA Y ROBUSTA CON GITHUB
-    async function syncToGitHub() {
-      const rawToken = localStorage.getItem('aura_gh_token');
-      if (!rawToken || !rawToken.trim()) {
-        showToast('Guardado localmente. Haz clic en "GitHub Token" para conectar la nube.', 4500);
-        return;
-      }
-      const token = rawToken.trim();
+    function b64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+      return btoa(bin);
+    }
 
-      const saveBtn = document.getElementById('save-frag-btn');
-      const storeBtn = document.getElementById('btn-save-store');
+    function syncFail(status, err) {
+      console.error("Detalle error GitHub:", status, err);
+      const m = {
+        401: 'Token de GitHub inválido o vencido. Genera uno nuevo y pégalo en "GitHub Token".',
+        403: 'El token no tiene permiso de escritura. Clásico: marca "repo". Fine-grained: Contents → Read and write en este repositorio.',
+        404: `GitHub no encuentra el repositorio ${GITHUB_REPO}: revisa que el token tenga acceso a él.`
+      }[status] || `Error de GitHub (${status}): ${err.message || 'no se pudo guardar'}`;
+      showToast(m + ' Tus cambios quedaron guardados en este dispositivo.', 7000);
+      return false;
+    }
+
+    // SINCRONIZACIÓN CON GITHUB: usa la rama por defecto, reintenta si el SHA cambió y reporta el error real
+    async function syncToGitHub(silent = false) {
+      if (!silent) {
+        dataRev = Date.now();
+        localStorage.setItem('aura_dirty', '1');
+        saveLocalData();
+      }
+      const token = getToken();
+      if (!token) {
+        showToast('Guardado solo en este dispositivo. Conecta tu token en "GitHub Token" para publicar.', 5000);
+        return false;
+      }
+      const saveBtn = $('save-frag-btn'), storeBtn = $('btn-save-store');
       if (saveBtn) saveBtn.innerHTML = '<span>Guardando en GitHub...</span>';
       if (storeBtn) storeBtn.innerHTML = '<span>Guardando en GitHub...</span>';
 
+      const base = `https://api.github.com/repos/${GITHUB_REPO}/contents/${DATA_FILE}`;
+      const H = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
       try {
-        // 1. Obtener SHA actual sin caché y con verificación de rama
-        const fileUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/R9.json?ref=main&t=${Date.now()}`;
-        
-        const getRes = await fetch(fileUrl, {
-          cache: 'no-store',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28'
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const g = await fetch(`${base}?${GITHUB_BRANCH ? 'ref=' + GITHUB_BRANCH + '&' : ''}t=${Date.now()}`, { cache: 'no-store', headers: H });
+          let sha = '';
+          if (g.ok) sha = (await g.json()).sha;
+          else if (g.status !== 404) return syncFail(g.status, await g.json().catch(() => ({})));
+
+          const body = {
+            message: `Actualización de catálogo: ${new Date().toLocaleString('es-MX')}`,
+            content: b64(JSON.stringify({ store: storeConfig, fragrances, salesLog: salesLog.slice(-300), rev: dataRev }, null, 2))
+          };
+          if (sha) body.sha = sha;
+          if (GITHUB_BRANCH) body.branch = GITHUB_BRANCH;
+
+          const p = await fetch(base, { method: 'PUT', headers: { ...H, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+          if (p.ok) {
+            localStorage.removeItem('aura_dirty');
+            showToast('¡Guardado en GitHub!', 3500);
+            return true;
           }
-        });
-
-        let sha = "";
-        if (getRes.ok) {
-          const fileData = await getRes.json();
-          sha = fileData.sha;
-        } else if (getRes.status === 401) {
-          showToast('Error: Token de GitHub inválido o expirado. Vuelve a ingresarlo.', 4500);
-          return;
-        } else if (getRes.status === 404) {
-          // El archivo aún no existe en main, se creará por primera vez
-          sha = "";
+          if (p.status === 409 || p.status === 422) continue;   // SHA desactualizado: se vuelve a leer y reintenta
+          return syncFail(p.status, await p.json().catch(() => ({})));
         }
-
-        // 2. Preparar payload con todo el catálogo
-        const payload = {
-          store: storeConfig,
-          fragrances: fragrances
-        };
-
-        const jsonString = JSON.stringify(payload, null, 2);
-        const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
-
-        // 3. Subir archivo a GitHub con rama explícita y encabezado Bearer estándar
-        const putUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/R9.json`;
-        const putBody = {
-          message: `Actualización de catálogo: ${new Date().toLocaleString()}`,
-          content: contentBase64,
-          branch: "main"
-        };
-        if (sha) putBody.sha = sha;
-
-        const putRes = await fetch(putUrl, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json',
-            'X-GitHub-Api-Version': '2022-11-28'
-          },
-          body: JSON.stringify(putBody)
-        });
-
-        if (putRes.ok) {
-          showToast('¡Guardado automáticamente en GitHub y en vivo!', 3500);
-        } else {
-          const errData = await putRes.json().catch(() => ({}));
-          console.error("Detalle error GitHub:", errData);
-          if (putRes.status === 409) {
-            showToast('Conflicto de versiones en GitHub. Intenta guardar de nuevo.', 4000);
-          } else if (putRes.status === 401 || putRes.status === 403) {
-            showToast('Permiso denegado: asegúrate de que tu Token tenga la casilla "repo" marcada.', 5000);
-          } else if (putRes.status === 422) {
-            showToast('El catálogo supera el límite de tamaño de GitHub. Usa fotos más ligeras.', 4500);
-          } else {
-            showToast(`Error GitHub (${putRes.status}): ${errData.message || 'No se pudo guardar'}`, 4500);
-          }
-        }
+        showToast('GitHub rechazó el guardado tras 3 intentos. Intenta de nuevo en un momento.', 6000);
+        return false;
       } catch (err) {
         console.error("Fallo de red:", err);
-        showToast('Guardado localmente. Error de conexión con GitHub.');
+        showToast('Sin conexión con GitHub. Cambios guardados aquí; se reintentarán al abrir como admin.', 6000);
+        return false;
       } finally {
         if (saveBtn) saveBtn.innerHTML = '<span>Guardar</span>';
         if (storeBtn) storeBtn.innerHTML = '<span>Guardar Cambios</span>';
       }
     }
 
-    function openTokenModal() {
+    
+function openTokenModal() {
       const currentToken = localStorage.getItem('aura_gh_token') || '';
       document.getElementById('github-token-input').value = currentToken;
       const msg = document.getElementById('token-validation-msg');
@@ -740,64 +842,79 @@
       }
     }
 
+    // INVENTARIO: disponibilidad por tamaño (el stock en ml/piezas se descuenta solo al aplicar la compra)
+    const stockOf = f => f.stock ? { pieces: num(f.stock.pieces), ml: num(f.stock.ml), bottleMl: num(f.stock.bottleMl) } : null;
+    const mlInCart = id => cart.filter(i => i.fragId === id && i.size !== 'P').reduce((a, i) => a + parseInt(i.size) * i.qty, 0);
+    const piecesInCart = id => cart.filter(i => i.fragId === id && i.size === 'P').reduce((a, i) => a + i.qty, 0);
+
+    function sizeState(f, size) {
+      const p = f.prices?.[size === 'P' ? 'piece' : size];
+      if (!p || !(p.price > 0) || p.inStock === false) return { ok: false, label: 'Agotado' };
+      const s = stockOf(f);
+      if (s) {
+        if (size === 'P') { if (s.pieces - piecesInCart(f.id) < 1) return { ok: false, label: 'Agotado' }; }
+        else if (s.ml - mlInCart(f.id) < parseInt(size)) return { ok: false, label: 'Sin ml' };
+      }
+      return { ok: true };
+    }
+
+    function sizeBtn(f, z) {
+      const st = sizeState(f, z), p = f.prices?.[z] || { price: 0 }, gold = z === '5ml';
+      const base = gold ? 'bg-gradient-to-b from-[#D4AF37]/25 to-[#D4AF37]/10 border-[#D4AF37]/50' : 'bg-[#090A0E] border-zinc-800';
+      return `<button ${st.ok ? `onclick="addToCart('${esc(f.id)}','${z}')"` : 'disabled title="ml insuficientes o agotado"'} class="p-1.5 rounded-xl border ${base} flex flex-col items-center transition ${st.ok ? 'hover:brightness-125 cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
+        <span class="text-[9px] uppercase font-bold ${gold ? 'text-[#F1D779]' : 'text-zinc-400'}">${parseInt(z)} ml</span>
+        <span class="text-[11px] font-bold ${st.ok ? (gold ? 'text-[#FFF1B0]' : 'text-white') : 'text-zinc-500'}">${st.ok ? formatPrice(p.price) : st.label}</span></button>`;
+    }
+
+    function pieceBtn(f) {
+      const p = f.prices?.piece;
+      if (!(p && p.price > 0)) return '';
+      const st = sizeState(f, 'P'), s = stockOf(f);
+      return `<button ${st.ok ? `onclick="addToCart('${esc(f.id)}','P')"` : 'disabled'} class="mt-1.5 w-full py-1.5 rounded-xl border border-zinc-700 bg-[#090A0E] text-[11px] font-bold flex justify-center gap-1.5 ${st.ok ? 'text-white hover:border-[#D4AF37]/50' : 'opacity-40 cursor-not-allowed text-zinc-500'}">
+        Frasco completo · ${st.ok ? formatPrice(p.price) : 'Agotado'}${s && st.ok ? ` <span class="text-zinc-500 font-medium">(${s.pieces} pz)</span>` : ''}</button>`;
+    }
+
+    function stockNote(f) {
+      const s = stockOf(f);
+      if (s && s.ml > 0 && s.ml <= lowMl())
+        return `<p class="text-[10px] text-amber-400 font-semibold mt-1.5 flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3 h-3"></i>¡Quedan pocos ml! Solo ${s.ml} ml para decantar</p>`;
+      return '';
+    }
+
     // PANTALLA COMPLETA DE DETALLE
     function openProductView(fragId) {
       const frag = fragrances.find(f => f.id === fragId);
       if (!frag) return;
-
-      document.getElementById('pv-img').src = frag.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(frag.name);
-      document.getElementById('pv-brand').textContent = frag.brand;
-      document.getElementById('pv-name').textContent = frag.name;
-      document.getElementById('pv-concentration').textContent = frag.concentration || 'EDP';
-      document.getElementById('pv-gender').textContent = frag.gender || 'Unisex';
-      document.getElementById('pv-notes').textContent = frag.notes || 'Notas aromáticas disponibles.';
-
-      const p3 = frag.prices?.['3ml'] || { price: 0, inStock: true };
-      const p5 = frag.prices?.['5ml'] || { price: 0, inStock: true };
-      const p10 = frag.prices?.['10ml'] || { price: 0, inStock: true };
-
-      const pricesContainer = document.getElementById('pv-prices-container');
-      pricesContainer.innerHTML = `
-        <button onclick="${p3.inStock ? `addToCart('${frag.id}', '3ml')` : ''}"
-          class="p-2.5 rounded-2xl border border-zinc-800 bg-[#0A0B10] hover:border-[#D4AF37]/50 transition flex flex-col items-center ${!p3.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer hover:bg-zinc-800/50'}">
-          <span class="text-[10px] uppercase font-bold text-zinc-400 block">3 ml</span>
-          <span class="text-xs font-bold ${p3.inStock ? 'text-white' : 'text-zinc-500 line-through'}">
-            ${p3.inStock ? formatPrice(p3.price) : 'Agotado'}
-          </span>
-        </button>
-
-        <button onclick="${p5.inStock ? `addToCart('${frag.id}', '5ml')` : ''}"
-          class="p-2.5 rounded-2xl bg-gradient-to-b from-[#D4AF37]/25 to-[#D4AF37]/10 border border-[#D4AF37]/50 hover:brightness-125 transition flex flex-col items-center ${!p5.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer'}">
-          <span class="text-[10px] uppercase font-extrabold text-[#F1D779] block">5 ml</span>
-          <span class="text-xs font-black ${p5.inStock ? 'text-[#FFF1B0]' : 'text-zinc-500 line-through'}">
-            ${p5.inStock ? formatPrice(p5.price) : 'Agotado'}
-          </span>
-        </button>
-
-        <button onclick="${p10.inStock ? `addToCart('${frag.id}', '10ml')` : ''}"
-          class="p-2.5 rounded-2xl border border-zinc-800 bg-[#0A0B10] hover:border-[#D4AF37]/50 transition flex flex-col items-center ${!p10.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer hover:bg-zinc-800/50'}">
-          <span class="text-[10px] uppercase font-bold text-zinc-400 block">10 ml</span>
-          <span class="text-xs font-bold ${p10.inStock ? 'text-white' : 'text-zinc-500 line-through'}">
-            ${p10.inStock ? formatPrice(p10.price) : 'Agotado'}
-          </span>
-        </button>
-      `;
-
-      document.getElementById('pv-direct-order-btn').onclick = function() {
-        const cleanPhone = storeConfig.whatsapp.replace(/[^0-9]/g, '');
-        const text = `¡Hola! Me interesa la fragancia *${frag.brand} - ${frag.name}*. ¿Qué tamaños tienes disponibles?`;
-        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, '_blank');
+      currentPV = fragId;
+      $('pv-img').src = frag.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(frag.name);
+      $('pv-brand').textContent = frag.brand;
+      $('pv-name').textContent = frag.name;
+      $('pv-concentration').textContent = frag.concentration || 'EDP';
+      $('pv-gender').textContent = frag.gender || 'Unisex';
+      $('pv-notes').textContent = frag.notes || 'Notas aromáticas disponibles.';
+      const piece = pieceBtn(frag), note = stockNote(frag);
+      $('pv-prices-container').innerHTML = SIZES.map(z => sizeBtn(frag, z)).join('') +
+        (piece ? `<div class="col-span-3">${piece}</div>` : '') + (note ? `<div class="col-span-3">${note}</div>` : '');
+      $('pv-direct-order-btn').onclick = function () {
+        window.open(waUrl(`¡Hola! Me interesa la fragancia *${frag.brand} - ${frag.name}*. ¿Qué tamaños tienes disponibles?`), '_blank');
       };
-
-      document.getElementById('product-page-view').classList.remove('hidden');
+      $('product-page-view').classList.remove('hidden');
       lucide.createIcons();
     }
 
     function closeProductView() {
-      document.getElementById('product-page-view').classList.add('hidden');
+      currentPV = null;
+      $('product-page-view').classList.add('hidden');
     }
 
-    // LOGIN
+    function refreshViews() {
+      renderCatalog();
+      updateCartUI();
+      if (currentPV) openProductView(currentPV);
+    }
+
+    
+// LOGIN
     function toggleAuthModal() {
       if (isAdminLoggedIn) {
         isAdminLoggedIn = false;
@@ -844,134 +961,152 @@
 
     // CARRITO
     function addToCart(fragId, size) {
-      const frag = fragrances.find(f => f.id === fragId);
-      if (!frag) return;
-
-      const priceInfo = frag.prices?.[size];
-      if (!priceInfo || !priceInfo.inStock || priceInfo.price <= 0) {
-        showToast('Tamaño no disponible');
+      const f = fragrances.find(x => x.id === fragId);
+      if (!f) return;
+      const st = sizeState(f, size);
+      if (!st.ok) {
+        const s = stockOf(f);
+        showToast(st.label === 'Sin ml' ? `Solo quedan ${r1(Math.max(0, s.ml - mlInCart(f.id)))} ml disponibles de ${f.name}` : 'Tamaño no disponible');
         return;
       }
+      const price = f.prices[size === 'P' ? 'piece' : size].price;
+      const it = cart.find(i => i.fragId === fragId && i.size === size);
+      if (it) it.qty += 1;
+      else cart.push({ fragId, name: f.name, brand: f.brand, size, price, qty: 1 });
+      refreshViews();
+      showToast(`Agregado: ${f.name} (${size === 'P' ? 'frasco completo' : size})`);
+    }
 
-      const existingItem = cart.find(item => item.fragId === fragId && item.size === size);
-      if (existingItem) {
-        existingItem.qty += 1;
-      } else {
-        cart.push({
-          fragId: frag.id,
-          name: frag.name,
-          brand: frag.brand,
-          size: size,
-          price: priceInfo.price,
-          qty: 1
-        });
+    function changeQty(idx, delta) {
+      const it = cart[idx];
+      if (!it) return;
+      if (delta > 0) {
+        const f = fragrances.find(x => x.id === it.fragId);
+        const st = f ? sizeState(f, it.size) : { ok: false, label: 'Agotado' };
+        if (!st.ok) { showToast(st.label === 'Sin ml' ? 'No hay ml suficientes para agregar otro' : 'No hay más piezas disponibles'); return; }
       }
-
-      updateCartUI();
-      showToast(`Agregado: ${frag.name} (${size})`);
+      it.qty += delta;
+      if (it.qty <= 0) cart.splice(idx, 1);
+      refreshViews();
     }
 
     function removeFromCart(index) {
       cart.splice(index, 1);
-      updateCartUI();
+      refreshViews();
     }
 
     function updateCartUI() {
-      const countEl = document.getElementById('cart-count');
-      const container = document.getElementById('cart-items-container');
-      const totalPriceEl = document.getElementById('cart-total-price');
-
-      let totalCount = 0;
-      let totalPrice = 0;
-
-      container.innerHTML = '';
-
-      if (cart.length === 0) {
-        container.innerHTML = `
-          <div class="py-12 text-center text-zinc-500">
-            <i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
-            <p>Tu bolsa de pedido está vacía</p>
-          </div>
-        `;
-      } else {
-        cart.forEach((item, idx) => {
-          totalCount += item.qty;
-          const subtotal = item.price * item.qty;
-          totalPrice += subtotal;
-
-          container.innerHTML += `
-            <div class="p-3 rounded-xl bg-[#141724] border border-zinc-800 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] text-[#D4AF37] font-bold uppercase block">${item.brand}</span>
-                <span class="text-xs text-white font-bold block">${item.name}</span>
-                <span class="text-[11px] text-zinc-400 font-medium">Decant ${item.size} × ${item.qty} (${formatPrice(item.price)})</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-white font-bold">${formatPrice(subtotal)}</span>
-                <button onclick="removeFromCart(${idx})" class="p-1 text-zinc-500 hover:text-red-400 transition">
-                  <i data-lucide="trash-2" class="w-4 h-4"></i>
-                </button>
-              </div>
+      let count = 0, total = 0;
+      $('cart-items-container').innerHTML = cart.length ? cart.map((it, i) => {
+        count += it.qty; total += it.price * it.qty;
+        return `<div class="p-3 rounded-xl bg-[#141724] border ${it.warn ? 'border-red-500/60' : 'border-zinc-800'}">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <span class="text-[10px] text-[#D4AF37] font-bold uppercase block">${esc(it.brand)}</span>
+              <span class="text-xs text-white font-bold block">${esc(it.name)}</span>
+              <span class="text-[11px] text-zinc-400">${it.size === 'P' ? 'Frasco completo' : 'Decant ' + it.size} (${money(it.price)})</span>
             </div>
-          `;
-        });
-      }
-
-      countEl.textContent = totalCount;
-      totalPriceEl.textContent = formatPrice(totalPrice);
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="changeQty(${i},-1)" class="qty-btn">−</button>
+              <span class="w-5 text-center text-white font-bold">${it.qty}</span>
+              <button onclick="changeQty(${i},1)" class="qty-btn">+</button>
+              <button onclick="removeFromCart(${i})" class="p-1 text-zinc-500 hover:text-red-400 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+          ${it.warn ? `<p class="text-[11px] text-red-400 mt-1.5">${esc(it.warn)}</p>` : ''}
+          <p class="text-right text-xs text-white font-bold mt-1">${money(it.price * it.qty)}</p>
+        </div>`;
+      }).join('') : `<div class="py-12 text-center text-zinc-500"><i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-2 opacity-40"></i><p>Tu bolsa de pedido está vacía</p></div>`;
+      $('cart-count').textContent = count;
+      $('cart-total-price').textContent = money(total);
       lucide.createIcons();
     }
 
     function toggleCartDrawer() {
-      const drawer = document.getElementById('cart-drawer');
-      drawer.classList.toggle('hidden');
+      $('cart-drawer').classList.toggle('hidden');
     }
 
-    function sendOrderViaWhatsApp() {
-      if (cart.length === 0) {
-        showToast('Agrega al menos una fragancia a tu pedido');
-        return;
-      }
-
-      const customerName = document.getElementById('order-customer-name').value.trim();
-      const customerAddress = document.getElementById('order-customer-address').value.trim();
-
-      if (!customerName) {
-        showToast('Escribe tu nombre para el pedido');
-        document.getElementById('order-customer-name').focus();
-        return;
-      }
-
-      let total = 0;
-      let orderListText = "";
-
-      cart.forEach((item) => {
-        const subtotal = item.price * item.qty;
-        total += subtotal;
-        orderListText += `▪ ${item.qty}x ${item.brand} - ${item.name} (${item.size}) -> ${formatPrice(subtotal)}\n`;
+    // Valida líneas {fragId,size,qty} contra el inventario. admin=true omite precio/flags manuales.
+    function checkLines(lines, admin = false) {
+      const errs = [], needMl = {}, needPc = {};
+      lines.forEach(l => {
+        l.warn = '';
+        const f = fragrances.find(x => x.id === l.fragId);
+        if (!f) { l.warn = 'Ya no está disponible'; errs.push(`${l.name || 'Un perfume'} ya no está disponible`); return; }
+        const p = f.prices?.[l.size === 'P' ? 'piece' : l.size];
+        if (!admin) {
+          if (!p || !(p.price > 0) || p.inStock === false) { l.warn = 'Agotado'; errs.push(`${f.name} (${l.size === 'P' ? 'frasco' : l.size}) está agotado`); return; }
+          l.price = p.price;
+        }
+        if (!stockOf(f)) return;
+        if (l.size === 'P') needPc[f.id] = (needPc[f.id] || 0) + l.qty;
+        else needMl[f.id] = (needMl[f.id] || 0) + parseInt(l.size) * l.qty;
       });
+      lines.forEach(l => {
+        const f = fragrances.find(x => x.id === l.fragId), s = f && stockOf(f);
+        if (!s || l.warn) return;
+        if (l.size === 'P' ? needPc[f.id] > s.pieces : needMl[f.id] > s.ml) {
+          l.warn = l.size === 'P' ? `Solo quedan ${s.pieces} pieza(s)` : `Solo quedan ${s.ml} ml`;
+          errs.push(`${f.name}: ${l.warn}. Ajusta tu pedido.`);
+        }
+      });
+      return errs;
+    }
 
-      let message = `¡Hola! Me gustaría levantar el siguiente pedido de decants en *${storeConfig.name}*:\n\n`;
-      message += `*Cliente:* ${customerName}\n`;
-      if (customerAddress) message += `*Destino/Ciudad:* ${customerAddress}\n`;
-      message += `\n*Detalle del Pedido:*\n${orderListText}\n`;
-      message += `*Total a pagar:* ${formatPrice(total)}\n\n`;
-      message += `¿Me confirmas disponibilidad y los datos para realizar el pago, por favor?`;
+    const encId = s => encodeURIComponent(s).replace(/[!'()*~._]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
 
-      const cleanPhone = storeConfig.whatsapp.replace(/[^0-9]/g, '');
-      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+    async function sendOrderViaWhatsApp() {
+      if (cart.length === 0) { showToast('Agrega al menos una fragancia a tu pedido'); return; }
+      const customerName = val('order-customer-name'), customerAddress = val('order-customer-address');
+      if (!customerName) { showToast('Escribe tu nombre para el pedido'); $('order-customer-name').focus(); return; }
 
-      window.open(waUrl, '_blank');
-      toggleCartDrawer();
+      const btn = $('btn-send-order'), label = btn.querySelector('span');
+      btn.disabled = true; label.textContent = 'Verificando disponibilidad...';
+      try {
+        // Validación final con el inventario más reciente antes de enviar
+        await fetchLatest();
+        const errs = checkLines(cart);
+        renderCatalog(); updateCartUI();
+        if (errs.length) { showToast(errs[0], 6000); return; }
+
+        let total = 0, list = '';
+        cart.forEach(it => {
+          const sub = it.price * it.qty; total += sub;
+          list += `▪ ${it.qty}x ${it.brand} - ${it.name} (${it.size === 'P' ? 'frasco completo' : it.size}) -> ${money(sub)}\n`;
+        });
+        const oid = 'DS-' + Date.now().toString(36).toUpperCase();
+        const code = `DSORD|${oid}|` + cart.map(i => `${encId(i.fragId)}.${i.size === 'P' ? 'P' : parseInt(i.size)}.${i.qty}`).join('|');
+
+        let message = `¡Hola! Me gustaría levantar el siguiente pedido en *${storeConfig.name}*:\n\n`;
+        message += `*Cliente:* ${customerName}\n`;
+        if (customerAddress) message += `*Destino/Ciudad:* ${customerAddress}\n`;
+        message += `\n*Detalle del Pedido:*\n${list}\n*Total a pagar:* ${money(total)}\n\n`;
+        message += `¿Me confirmas disponibilidad y los datos para realizar el pago, por favor?\n\n`;
+        message += `Pedido ${oid}\nCódigo (no borrar): ${code}`;
+
+        const url = waUrl(message);
+        if (!window.open(url, '_blank')) window.location.href = url;
+        cart = [];
+        refreshViews();
+        toggleCartDrawer();
+      } finally {
+        btn.disabled = false; label.textContent = 'Enviar Pedido a WhatsApp';
+      }
     }
 
     function updateStoreBrandHeader() {
-      document.getElementById('header-store-name').textContent = storeConfig.name;
-      document.getElementById('hero-tagline').textContent = storeConfig.tagline;
-      document.getElementById('hero-notes').textContent = storeConfig.notes;
+      $('header-store-name').textContent = storeConfig.name;
+      $('hero-store-name').textContent = storeConfig.name;
+      $('hero-tagline').textContent = storeConfig.tagline;
+      $('info-notes').textContent = storeConfig.notes;
+      $('info-wa').textContent = storeConfig.whatsapp;
+      $('info-wa').href = waUrl('');
+      $('info-ig').textContent = storeConfig.instagram;
+      $('footer-text').textContent = `© ${new Date().getFullYear()} ${storeConfig.name} · Envíos a todo México · Productos 100% originales`;
     }
 
-    function populateBrandFilter() {
+    
+function populateBrandFilter() {
       const select = document.getElementById('filter-brand');
       const currentVal = select.value;
       const brands = Array.from(new Set(fragrances.map(f => f.brand))).filter(Boolean).sort();
@@ -999,202 +1134,102 @@
       return `${getCurrencySymbol()}${num.toFixed(0)}`;
     }
 
-    // RENDERIZADO POR PÁGINAS A4 EXACTAS (SIN BORDES BLANCOS)
-    function renderCatalog() {
-      const container = document.getElementById('catalog-sheet');
-      const emptyState = document.getElementById('empty-state');
-      const searchQuery = (document.getElementById('search-input').value || '').toLowerCase().trim();
-      const selectedBrand = document.getElementById('filter-brand').value;
+    // CATÁLOGO: 10 perfumes por tanda, el resto bajo demanda
+    function getFiltered() {
+      const q = (($('search-input') || {}).value || '').toLowerCase().trim();
+      const b = ($('filter-brand') || {}).value || 'ALL';
+      return fragrances.filter(f => (b === 'ALL' || f.brand === b) &&
+        ((f.name || '').toLowerCase().includes(q) || (f.brand || '').toLowerCase().includes(q) || (f.notes || '').toLowerCase().includes(q)));
+    }
 
-      const filtered = fragrances.filter(frag => {
-        const matchBrand = selectedBrand === 'ALL' || frag.brand === selectedBrand;
-        const matchSearch = (frag.name || '').toLowerCase().includes(searchQuery) ||
-                            (frag.brand || '').toLowerCase().includes(searchQuery) ||
-                            (frag.notes && frag.notes.toLowerCase().includes(searchQuery));
-        return matchBrand && matchSearch;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = '';
-        emptyState.classList.remove('hidden');
-        return;
-      }
-
-      emptyState.classList.add('hidden');
-
-      const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-      let pagesHtml = '';
-
-      for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
-        const pageItems = filtered.slice(pageIdx * ITEMS_PER_PAGE, (pageIdx + 1) * ITEMS_PER_PAGE);
-        const pageNumber = pageIdx + 1;
-
-        pagesHtml += `
-          <div class="print-page rounded-2xl mb-8 p-6 bg-[#0B0D13] border border-zinc-800/80 shadow-2xl">
-            
-            <div>
-              <div class="pb-3 border-b border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#D4AF37] via-[#FFF1B0] to-[#8C6D15] p-[1.5px] shadow-lg shrink-0">
-                    <div class="w-full h-full bg-[#0D0F17] rounded-[14px] flex items-center justify-center overflow-hidden">
-                      <span class="text-[#D4AF37] font-heading font-black text-sm">
-                        ${storeConfig.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'DS'}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <h2 class="font-heading text-lg sm:text-xl font-extrabold tracking-wide text-white uppercase">
-                      ${storeConfig.name}
-                    </h2>
-                    <p class="text-[11px] text-zinc-400 mt-0.5 font-medium tracking-wide">
-                      ${storeConfig.tagline}
-                    </p>
-                  </div>
-                </div>
-
-                <div class="flex flex-col sm:items-end gap-1 text-xs text-zinc-300">
-                  <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-1">
-                      <i data-lucide="message-circle" class="w-3.5 h-3.5 text-[#D4AF37]"></i>
-                      <span class="font-semibold text-white tracking-wide">${storeConfig.whatsapp}</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <i data-lucide="instagram" class="w-3.5 h-3.5 text-[#D4AF37]"></i>
-                      <span class="font-semibold text-zinc-300">${storeConfig.instagram}</span>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-1 text-[10px] text-zinc-400">
-                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#D4AF37]"></i>
-                    <span>${storeConfig.notes}</span>
-                  </div>
-                </div>
+    function cardHtml(f) {
+      const id = esc(f.id), s = stockOf(f);
+      const img = esc(f.image || ('https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(f.name)));
+      return `<article class="luxury-card rounded-2xl overflow-hidden flex flex-col justify-between">
+        <div>
+          <div onclick="openProductView('${id}')" class="bottle-box relative w-full h-48 p-3 flex items-center justify-center border-b border-zinc-800/80 cursor-pointer">
+            <img src="${img}" alt="${esc(f.name)}" loading="lazy" class="bottle-img max-h-full max-w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]">
+            <div class="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
+              <span class="chip-a">${esc(f.concentration || 'EDP')}</span>
+              ${f.gender ? `<span class="chip-b">${esc(f.gender)}</span>` : ''}
+            </div>
+            ${isAdminLoggedIn ? `
+              <div class="absolute top-2.5 right-2.5 flex items-center gap-1" onclick="event.stopPropagation()">
+                <button onclick="openInventoryModal('${id}')" title="Inventario" class="p-1.5 rounded-lg bg-black/80 hover:bg-[#D4AF37] text-white hover:text-black transition"><i data-lucide="package-plus" class="w-3.5 h-3.5"></i></button>
+                <button onclick="editFragrance('${id}')" title="Editar" class="p-1.5 rounded-lg bg-black/80 hover:bg-[#D4AF37] text-white hover:text-black transition"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                <button onclick="deleteFragrance('${id}')" title="Eliminar" class="p-1.5 rounded-lg bg-black/80 hover:bg-red-600 text-white transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
               </div>
-
-              <div class="mt-2.5 px-3 py-1.5 rounded-xl bg-[#12141F]/80 border border-zinc-800 flex items-center justify-between gap-2 text-xs">
-                <span class="text-[#D4AF37] font-bold text-[11px] flex items-center gap-1">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Rendimiento:
-                </span>
-                <div class="flex items-center gap-4 text-[10px] text-zinc-300 font-medium">
-                  <span><strong class="text-white">3 ml:</strong> ~45 sprays</span>
-                  <span><strong class="text-[#D4AF37]">5 ml:</strong> ~75 sprays</span>
-                  <span><strong class="text-white">10 ml:</strong> ~150 sprays</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- CUADRÍCULA 2X2 -->
-            <div class="print-grid grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-3">
-              ${pageItems.map(frag => {
-                const p3 = frag.prices?.['3ml'] || { price: 0, inStock: true };
-                const p5 = frag.prices?.['5ml'] || { price: 0, inStock: true };
-                const p10 = frag.prices?.['10ml'] || { price: 0, inStock: true };
-
-                return `
-                  <div class="print-card luxury-card rounded-2xl overflow-hidden flex flex-col justify-between">
-                    <div>
-                      <div onclick="openProductView('${frag.id}')" class="bottle-box relative w-full h-48 p-3 flex items-center justify-center border-b border-zinc-800/80 cursor-pointer">
-                        <img 
-                          src="${frag.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(frag.name)}" 
-                          alt="${frag.name}"
-                          crossorigin="anonymous"
-                          class="bottle-img max-h-full max-w-full object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]"
-                        />
-
-                        <div class="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
-                          <span class="bg-[#12141F]/90 border border-zinc-700/80 text-zinc-300 font-semibold text-[9px] px-2 py-0.5 rounded-full backdrop-blur-md">
-                            ${frag.concentration || 'EDP'}
-                          </span>
-                          ${frag.gender ? `
-                            <span class="bg-[#D4AF37]/15 border border-[#D4AF37]/35 text-[#F1D779] font-semibold text-[9px] px-2 py-0.5 rounded-full backdrop-blur-md">
-                              ${frag.gender}
-                            </span>
-                          ` : ''}
-                        </div>
-
-                        ${isAdminLoggedIn ? `
-                          <div class="action-buttons-card no-print absolute top-2.5 right-2.5 flex items-center gap-1" onclick="event.stopPropagation()">
-                            <button onclick="editFragrance('${frag.id}')" title="Editar" class="p-1.5 rounded-lg bg-black/80 hover:bg-[#D4AF37] text-white hover:text-black transition">
-                              <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="deleteFragrance('${frag.id}')" title="Eliminar" class="p-1.5 rounded-lg bg-black/80 hover:bg-red-600 text-white transition">
-                              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                          </div>
-                        ` : ''}
-                      </div>
-
-                      <div class="p-3.5 pb-1 cursor-pointer" onclick="openProductView('${frag.id}')">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37] block">
-                          ${frag.brand}
-                        </span>
-                        <h3 class="font-heading text-base font-bold text-white mt-0.5 leading-snug truncate" title="${frag.name}">
-                          ${frag.name}
-                        </h3>
-
-                        <p class="text-[11px] text-zinc-300 mt-1 leading-relaxed line-clamp-2">
-                          <span class="text-zinc-500 font-semibold">Notas:</span> ${frag.notes || 'Toca para ver notas completas.'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="p-3.5 pt-1">
-                      <div class="grid grid-cols-3 gap-1.5 text-center">
-                        <button 
-                          onclick="${p3.inStock ? `addToCart('${frag.id}', '3ml')` : ''}"
-                          class="p-1.5 rounded-xl border border-zinc-800 bg-[#090A0E] hover:border-[#D4AF37]/40 transition flex flex-col items-center ${!p3.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer hover:bg-zinc-800/50'}">
-                          <span class="text-[9px] uppercase font-bold text-zinc-400 block">3 ml</span>
-                          <span class="text-[11px] font-bold ${p3.inStock ? 'text-white' : 'text-zinc-500 line-through'}">
-                            ${p3.inStock ? formatPrice(p3.price) : 'Agotado'}
-                          </span>
-                        </button>
-
-                        <button 
-                          onclick="${p5.inStock ? `addToCart('${frag.id}', '5ml')` : ''}"
-                          class="p-1.5 rounded-xl bg-gradient-to-b from-[#D4AF37]/25 to-[#D4AF37]/10 border border-[#D4AF37]/50 hover:brightness-125 transition flex flex-col items-center ${!p5.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer'}">
-                          <span class="text-[9px] uppercase font-extrabold text-[#F1D779] block">5 ml</span>
-                          <span class="text-[11px] font-extrabold ${p5.inStock ? 'text-[#FFF1B0]' : 'text-zinc-500 line-through'}">
-                            ${p5.inStock ? formatPrice(p5.price) : 'Agotado'}
-                          </span>
-                        </button>
-
-                        <button 
-                          onclick="${p10.inStock ? `addToCart('${frag.id}', '10ml')` : ''}"
-                          class="p-1.5 rounded-xl border border-zinc-800 bg-[#090A0E] hover:border-[#D4AF37]/40 transition flex flex-col items-center ${!p10.inStock ? 'opacity-35 cursor-not-allowed' : 'cursor-pointer hover:bg-zinc-800/50'}">
-                          <span class="text-[9px] uppercase font-bold text-zinc-400 block">10 ml</span>
-                          <span class="text-[11px] font-bold ${p10.inStock ? 'text-white' : 'text-zinc-500 line-through'}">
-                            ${p10.inStock ? formatPrice(p10.price) : 'Agotado'}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <div class="pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] text-zinc-400">
-              <span class="text-[#D4AF37] font-medium flex items-center gap-1">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                100% Auténtico • Decants Sellados Herméticamente
-              </span>
-              <span class="font-semibold text-zinc-300">
-                Página ${pageNumber} de ${totalPages}
-              </span>
-            </div>
-
+              <span class="absolute bottom-2 left-2 text-[10px] px-2 py-0.5 rounded bg-black/80 text-zinc-300">${s ? `${s.pieces} pz · ${s.ml} ml` : 'Sin inventario'}</span>` : ''}
           </div>
-        `;
-      }
+          <div class="p-3.5 pb-1 cursor-pointer" onclick="openProductView('${id}')">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37] block">${esc(f.brand)}</span>
+            <h3 class="font-heading text-base font-bold text-white mt-0.5 leading-snug truncate" title="${esc(f.name)}">${esc(f.name)}</h3>
+            <p class="text-[11px] text-zinc-300 mt-1 leading-relaxed line-clamp-2"><span class="text-zinc-500 font-semibold">Notas:</span> ${esc(f.notes || 'Toca para ver notas completas.')}</p>
+          </div>
+        </div>
+        <div class="p-3.5 pt-1">
+          <div class="grid grid-cols-3 gap-1.5 text-center">${SIZES.map(z => sizeBtn(f, z)).join('')}</div>
+          ${pieceBtn(f)}${stockNote(f)}
+        </div>
+      </article>`;
+    }
 
-      container.innerHTML = pagesHtml;
+    function renderCatalog() {
+      const list = getFiltered(), shown = list.slice(0, shownCount);
+      $('catalog-grid').innerHTML = shown.map(cardHtml).join('');
+      $('empty-state').classList.toggle('hidden', list.length > 0);
+      $('catalog-count').textContent = list.length ? `Mostrando ${shown.length} de ${list.length} perfumes` : '';
+      const more = list.length - shown.length;
+      $('load-more-wrap').classList.toggle('hidden', more <= 0);
+      $('load-more-btn').textContent = `Ver más perfumes (${more} restantes)`;
       lucide.createIcons();
     }
 
-    function filterCatalog() {
-      renderCatalog();
+    function loadMore() { shownCount += PAGE_SIZE; renderCatalog(); }
+    function filterCatalog() { shownCount = PAGE_SIZE; renderCatalog(); }
+
+    // PDF: se arma aparte con TODOS los perfumes filtrados, en hojas A4 de 4
+    function printPrice(f, z) {
+      const p = f.prices?.[z], s = stockOf(f);
+      const ok = p && p.price > 0 && p.inStock !== false && (!s || s.ml >= parseInt(z));
+      return `<div class="text-center rounded-lg border border-zinc-700 py-1"><span class="text-[9px] text-zinc-400 block">${parseInt(z)} ml</span><strong class="text-[11px] ${ok ? 'text-white' : 'text-zinc-500'}">${ok ? formatPrice(p.price) : 'Agotado'}</strong></div>`;
     }
 
-    function openFragranceModal(isEdit = false) {
+    function buildPrintSheet() {
+      const list = getFiltered(), pages = Math.ceil(list.length / PRINT_PER_PAGE);
+      let h = '';
+      for (let i = 0; i < pages; i++) {
+        const items = list.slice(i * PRINT_PER_PAGE, (i + 1) * PRINT_PER_PAGE);
+        h += `<div class="print-page">
+          <div class="pb-2 border-b border-zinc-800 flex items-center justify-between gap-3">
+            <div><h2 class="font-heading text-xl font-extrabold text-white uppercase">${esc(storeConfig.name)}</h2><p class="text-[11px] text-zinc-400">${esc(storeConfig.tagline)}</p></div>
+            <div class="text-right text-[11px] text-zinc-300"><div class="font-semibold text-white">${esc(storeConfig.whatsapp)} · ${esc(storeConfig.instagram)}</div><div class="text-[10px] text-zinc-400">${esc(storeConfig.notes)}</div></div>
+          </div>
+          <div class="print-grid">${items.map(f => `
+            <div class="print-card rounded-xl overflow-hidden">
+              <div class="bottle-box h-44 p-2 flex items-center justify-center"><img src="${esc(f.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(f.name))}" alt="" class="max-h-full max-w-full object-contain"></div>
+              <div class="p-3"><span class="text-[10px] font-bold uppercase text-[#D4AF37] block">${esc(f.brand)}</span><h3 class="font-heading text-sm font-bold text-white">${esc(f.name)}</h3>
+                <p class="text-[10px] text-zinc-400 mt-1 line-clamp-2">${esc(f.notes || '')}</p></div>
+              <div class="p-3 pt-0"><div class="grid grid-cols-3 gap-1.5">${SIZES.map(z => printPrice(f, z)).join('')}</div>
+                ${f.prices?.piece?.price > 0 ? `<p class="text-[10px] text-zinc-300 mt-1.5 text-center">Frasco completo: <strong>${money(f.prices.piece.price)}</strong></p>` : ''}</div>
+            </div>`).join('')}</div>
+          <div class="pt-2 border-t border-zinc-800 flex justify-between text-[10px] text-zinc-400"><span class="text-[#D4AF37]">100% Auténtico • Envíos a todo México</span><span>Página ${i + 1} de ${pages}</span></div>
+        </div>`;
+      }
+      $('print-sheet').innerHTML = h;
+    }
+
+    async function printCatalog() {
+      buildPrintSheet();
+      const imgs = [...document.querySelectorAll('#print-sheet img')];
+      await Promise.race([Promise.all(imgs.map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))), new Promise(r => setTimeout(r, 3000))]);
+      window.print();
+    }
+    window.addEventListener('beforeprint', buildPrintSheet);
+    window.addEventListener('afterprint', () => { $('print-sheet').innerHTML = ''; });
+
+    
+function openFragranceModal(isEdit = false) {
       if (!isAdminLoggedIn) {
         toggleAuthModal();
         return;
@@ -1291,7 +1326,9 @@
       const p10 = parseFloat(document.getElementById('frag-price-10ml').value) || 0;
       const p10Avail = document.getElementById('frag-10ml-avail').checked;
 
+      const oldItem = fragrances.find(f => f.id === editId);
       const itemData = {
+        stock: oldItem ? oldItem.stock : undefined,
         id: editId || 'frag-' + Date.now(),
         name,
         brand,
@@ -1302,7 +1339,8 @@
         prices: {
           "3ml": { price: p3, inStock: p3Avail },
           "5ml": { price: p5, inStock: p5Avail },
-          "10ml": { price: p10, inStock: p10Avail }
+          "10ml": { price: p10, inStock: p10Avail },
+          piece: { price: parseFloat(document.getElementById('frag-price-piece').value) || 0, inStock: true }
         }
       };
 
@@ -1349,6 +1387,7 @@
 
       document.getElementById('frag-price-10ml').value = p10.price || '';
       document.getElementById('frag-10ml-avail').checked = p10.inStock;
+      document.getElementById('frag-price-piece').value = frag.prices?.piece?.price || '';
 
       updateImagePreview(frag.image || '');
       document.getElementById('modal-title').textContent = 'Editar Fragancia';
@@ -1360,6 +1399,7 @@
         toggleAuthModal();
         return;
       }
+      if (!confirm('¿Eliminar esta fragancia del catálogo?')) return;
       fragrances = fragrances.filter(f => f.id !== id);
       saveLocalData();
       renderCatalog();
@@ -1398,11 +1438,178 @@
       await syncToGitHub();
     }
 
-    function showToast(message, duration = 3000) {
+    // GESTOR DE INVENTARIO Y VENTAS (panel admin)
+    function fillInvSelects(sel) {
+      const opts = fragrances.slice().sort((a, b) => (a.brand + a.name).localeCompare(b.brand + b.name));
+      const o = f => `<option value="${esc(f.id)}">${esc(f.brand)} — ${esc(f.name)}</option>`;
+      $('inv-frag').innerHTML = '<option value="__new">➕ Perfume nuevo…</option>' + opts.map(o).join('');
+      $('sale-frag').innerHTML = opts.map(o).join('');
+      $('inv-frag').value = sel || (opts[0] ? opts[0].id : '__new');
+      invOnSelect();
+    }
+
+    function openInventoryModal(preselect) {
+      if (!isAdminLoggedIn) { toggleAuthModal(); return; }
+      fillInvSelects(preselect);
+      renderInvTable();
+      renderSalePreview();
+      $('inventory-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeInventoryModal() { $('inventory-modal').classList.add('hidden'); }
+
+    function invTab(t) {
+      $('pane-inv').classList.toggle('hidden', t !== 'inv');
+      $('pane-sale').classList.toggle('hidden', t !== 'sale');
+      $('tab-inv').className = 'tab-btn' + (t === 'inv' ? ' tab-on' : '');
+      $('tab-sale').className = 'tab-btn' + (t === 'sale' ? ' tab-on' : '');
+    }
+
+    function invOnSelect() {
+      const id = $('inv-frag').value, isNew = id === '__new';
+      $('inv-new-fields').classList.toggle('hidden', !isNew);
+      const f = fragrances.find(x => x.id === id), s = f && stockOf(f);
+      $('inv-current').textContent = isNew ? 'Perfume nuevo: se creará con el inventario que captures abajo. La foto se agrega después con ✏️.'
+        : s ? `Inventario actual: ${s.pieces} pieza(s) · ${s.ml} ml para decantar${s.bottleMl ? ` · ${s.bottleMl} ml por pieza` : ''}`
+        : 'Sin inventario registrado: se vende sin límite de ml hasta que captures el primero.';
+    }
+
+    function pickInv(id) { $('inv-frag').value = id; invOnSelect(); }
+
+    function renderInvTable() {
+      $('inv-table').innerHTML = fragrances.map(f => {
+        const s = stockOf(f), low = s && s.ml > 0 && s.ml <= lowMl();
+        return `<button type="button" onclick="pickInv('${esc(f.id)}')" class="w-full flex justify-between gap-2 px-3 py-1.5 rounded-lg bg-[#141622] border border-zinc-800 text-left hover:border-[#D4AF37]/50">
+          <span class="truncate text-zinc-200">${esc(f.brand)} — ${esc(f.name)}</span>
+          <span class="shrink-0 ${low ? 'text-amber-400' : 'text-zinc-400'}">${s ? `${s.pieces} pz · ${s.ml} ml${low ? ' ⚠' : ''}` : 'sin inventario'}</span></button>`;
+      }).join('') || '<p class="text-zinc-500">Aún no hay perfumes.</p>';
+    }
+
+    async function afterInv(msg, sel) {
+      saveLocalData(); renderAll(); fillInvSelects(sel); renderInvTable(); renderSalePreview();
+      showToast(msg);
+      await syncToGitHub();
+    }
+
+    async function applyInventory(e) {
+      e.preventDefault();
+      const id = $('inv-frag').value;
+      let f;
+      if (id === '__new') {
+        const name = val('inv-name'), brand = val('inv-brand');
+        if (!name || !brand) { showToast('Escribe nombre y marca del perfume nuevo'); return; }
+        f = {
+          id: 'frag-' + Date.now(), name, brand, concentration: val('inv-conc') || 'Eau de Parfum', gender: $('inv-gender').value, image: '', notes: '',
+          prices: { '3ml': { price: num(val('inv-p3')), inStock: true }, '5ml': { price: num(val('inv-p5')), inStock: true }, '10ml': { price: num(val('inv-p10')), inStock: true }, piece: { price: num(val('inv-pp')), inStock: true } },
+          stock: { pieces: 0, ml: 0, bottleMl: 0 }
+        };
+        fragrances.unshift(f);
+      } else f = fragrances.find(x => x.id === id);
+      if (!f) return;
+      const pcs = num(val('inv-pieces')), ml = num(val('inv-ml')), bml = num(val('inv-bottleml')), set = $('inv-mode').value === 'set';
+      if (!set && !pcs && !ml && id !== '__new') { showToast('Captura piezas o ml para agregar'); return; }
+      if (!f.stock) f.stock = { pieces: 0, ml: 0, bottleMl: 0 };
+      f.stock.pieces = set ? pcs : f.stock.pieces + pcs;
+      f.stock.ml = r1(set ? ml : f.stock.ml + ml);
+      if (bml) f.stock.bottleMl = bml;
+      ['inv-pieces', 'inv-ml', 'inv-bottleml', 'inv-name', 'inv-brand', 'inv-conc', 'inv-p3', 'inv-p5', 'inv-p10', 'inv-pp'].forEach(k => $(k).value = '');
+      await afterInv(set ? 'Inventario corregido' : `Inventario agregado: ${f.name}`, f.id);
+    }
+
+    // Abre piezas completas y las convierte en ml para decantar
+    async function openPieces() {
+      const f = fragrances.find(x => x.id === $('inv-frag').value), n = parseInt(val('inv-open')) || 0;
+      if (!f || !f.stock) { showToast('Primero registra inventario de este perfume'); return; }
+      if (n < 1 || n > f.stock.pieces) { showToast(`Solo hay ${f.stock.pieces} pieza(s)`); return; }
+      if (!(f.stock.bottleMl > 0)) { showToast('Captura primero los ml por pieza'); return; }
+      f.stock.pieces -= n;
+      f.stock.ml = r1(f.stock.ml + n * f.stock.bottleMl);
+      $('inv-open').value = '';
+      await afterInv(`Se abrieron ${n} pieza(s): +${r1(n * f.stock.bottleMl)} ml para decantar`, f.id);
+    }
+
+    // VENTAS: el inventario baja solo cuando Diego aplica la compra
+    function parseOrder(text) {
+      const m = text.match(/DSORD\|[^\s]+/);
+      if (!m) return null;
+      const parts = m[0].split('|'), lines = [];
+      for (const p of parts.slice(2)) {
+        const [id, sz, q] = p.split('.'), qty = parseInt(q);
+        if (!id || !qty) return null;
+        lines.push({ fragId: decodeURIComponent(id), size: sz === 'P' ? 'P' : sz + 'ml', qty });
+      }
+      const c = text.match(/Cliente:\*?\s*([^\n]+)/);
+      return lines.length ? { id: parts[1], lines, src: 'whatsapp', customer: c ? c[1].trim() : '' } : null;
+    }
+
+    function readOrder() {
+      const o = parseOrder($('sale-paste').value);
+      if (!o) { showToast('No encontré el código del pedido. Pega el mensaje completo de WhatsApp.', 4500); return; }
+      pendingOrder = o;
+      renderSalePreview();
+    }
+
+    function addManualLine() {
+      if (!$('sale-frag').value) { showToast('No hay perfumes registrados'); return; }
+      if (!pendingOrder) pendingOrder = { id: 'MAN-' + Date.now().toString(36).toUpperCase(), lines: [], src: 'manual', customer: '' };
+      pendingOrder.lines.push({ fragId: $('sale-frag').value, size: $('sale-size').value, qty: Math.max(1, parseInt(val('sale-qty')) || 1) });
+      renderSalePreview();
+    }
+
+    function removeSaleLine(i) {
+      pendingOrder.lines.splice(i, 1);
+      if (!pendingOrder.lines.length) pendingOrder = null;
+      renderSalePreview();
+    }
+    function cancelSale() { pendingOrder = null; renderSalePreview(); }
+
+    function renderSalePreview() {
+      let h = '<p class="text-zinc-500">No hay una venta en proceso.</p>';
+      if (pendingOrder) {
+        const errs = checkLines(pendingOrder.lines, true);
+        h = `<div class="p-3 rounded-xl bg-[#141622] border ${errs.length ? 'border-red-500/50' : 'border-[#D4AF37]/30'} space-y-1.5">
+          <p class="text-zinc-300 font-semibold">Pedido ${esc(pendingOrder.id)}${pendingOrder.customer ? ' · ' + esc(pendingOrder.customer) : ''}</p>
+          ${pendingOrder.lines.map((l, i) => {
+            const f = fragrances.find(x => x.id === l.fragId), s = f && stockOf(f);
+            const what = l.size === 'P' ? 'frasco completo' : l.size.replace('ml', ' ml');
+            const eff = !f ? 'perfume no encontrado' : !s ? 'sin inventario registrado: no se descuenta'
+              : l.size === 'P' ? `descuenta ${l.qty} pz (hay ${s.pieces})` : `descuenta ${parseInt(l.size) * l.qty} ml (hay ${s.ml})`;
+            return `<div class="flex justify-between gap-2"><span class="${l.warn ? 'text-red-400' : 'text-zinc-200'}">${f ? esc(f.brand + ' ' + f.name) : 'Desconocido'} · ${what} × ${l.qty}<br><span class="text-[10px] ${l.warn ? 'text-red-400' : 'text-zinc-500'}">${esc(l.warn || eff)}</span></span>
+              <button onclick="removeSaleLine(${i})" class="text-zinc-500 hover:text-red-400 shrink-0">✕</button></div>`;
+          }).join('')}
+          <div class="flex gap-2 pt-2"><button onclick="applyOrder()" ${errs.length ? 'disabled' : ''} class="flex-1 py-2 rounded-lg bg-[#D4AF37] text-black font-bold ${errs.length ? 'opacity-40 cursor-not-allowed' : ''}">Aplicar compra y descontar</button>
+          <button onclick="cancelSale()" class="px-3 py-2 rounded-lg bg-zinc-800 text-zinc-300">Cancelar</button></div></div>`;
+      }
+      $('sale-preview').innerHTML = h;
+      $('sale-log').innerHTML = salesLog.slice(-8).reverse().map(s =>
+        `<div class="px-3 py-1.5 rounded-lg bg-[#0E1017] border border-zinc-800 text-zinc-400">${new Date(s.date).toLocaleDateString('es-MX')} · ${esc(s.id)}${s.customer ? ' · ' + esc(s.customer) : ''} · ${s.lines.map(l => `${l.qty}× ${esc(l.name)} ${l.size === 'P' ? 'pz' : l.size}`).join(', ')}</div>`).join('') || '<p class="text-zinc-500">Aún no hay ventas aplicadas.</p>';
+    }
+
+    async function applyOrder() {
+      if (!pendingOrder) return;
+      if (salesLog.some(s => s.id === pendingOrder.id)) { showToast('Este pedido ya fue aplicado antes'); return; }
+      await fetchLatest();                                   // inventario más reciente antes de descontar
+      const errs = checkLines(pendingOrder.lines, true);
+      renderSalePreview();
+      if (errs.length) { showToast(errs[0], 5000); return; }
+      let total = 0;
+      const done = pendingOrder.lines.map(l => {
+        const f = fragrances.find(x => x.id === l.fragId), s = f.stock;
+        total += (f.prices?.[l.size === 'P' ? 'piece' : l.size]?.price || 0) * l.qty;
+        if (s) { if (l.size === 'P') s.pieces = r1(s.pieces - l.qty); else s.ml = r1(s.ml - parseInt(l.size) * l.qty); }
+        return { fragId: f.id, name: f.name, brand: f.brand, size: l.size, qty: l.qty };
+      });
+      salesLog.push({ id: pendingOrder.id, date: new Date().toISOString(), src: pendingOrder.src, customer: pendingOrder.customer || '', total, lines: done });
+      pendingOrder = null; $('sale-paste').value = '';
+      await afterInv('Compra aplicada: inventario descontado', $('inv-frag').value);
+    }
+
+    
+function showToast(message, duration = 3000) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'px-3.5 py-2 rounded-xl bg-zinc-900 border border-[#D4AF37]/50 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 pointer-events-auto';
-      toast.innerHTML = `<i data-lucide="info" class="w-3.5 h-3.5 text-[#D4AF37]"></i> <span>${message}</span>`;
+      toast.innerHTML = `<i data-lucide="info" class="w-3.5 h-3.5 text-[#D4AF37]"></i> <span>${esc(message)}</span>`;
       container.appendChild(toast);
       lucide.createIcons();
       setTimeout(() => toast.remove(), duration);
