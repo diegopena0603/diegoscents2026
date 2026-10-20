@@ -46,12 +46,12 @@
 
     /* Fondo tenue elegante dorado */
     .hero-glow {
-      background: radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.18) 0%, rgba(14, 16, 23, 0.6) 45%, rgba(6, 7, 9, 0) 80%);
+      background: radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.16) 0%, rgba(14, 16, 23, 0.5) 45%, rgba(6, 7, 9, 0) 80%);
     }
 
     /* Tarjetas de catálogo estilo lujo */
     .catalog-card {
-      background: linear-gradient(155deg, rgba(17, 19, 27, 0.95), rgba(9, 10, 15, 0.98));
+      background: linear-gradient(155deg, rgba(16, 18, 26, 0.96), rgba(9, 10, 15, 0.98));
       border: 1px solid rgba(212, 175, 55, 0.15);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -61,8 +61,13 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.95), 0 0 24px -4px rgba(212, 175, 55, 0.18);
     }
 
+    /* Escenario de botella: fondo oscuro uniforme y fusión para eliminar bordes negros en fotos JPG */
     .bottle-stage {
-      background: radial-gradient(circle at 50% 60%, rgba(212, 175, 55, 0.12) 0%, rgba(11, 13, 19, 0.95) 75%);
+      background-color: #090A0F;
+      position: relative;
+    }
+    .bottle-stage img, #pv-img {
+      mix-blend-mode: screen; /* Vuelve transparentes los fondos negros de imágenes JPG */
     }
 
     /* Impresión A4 limpia */
@@ -154,7 +159,7 @@
 
   <!-- BANNER DE BIENVENIDA -->
   <section id="hero-banner" class="no-print hero-glow border-b border-zinc-800/80 px-4 py-8 relative">
-    <div class="max-w-6xl mx-auto flex flex-col gap-5 relative z-10">
+    <div class="max-w-7xl mx-auto flex flex-col gap-5 relative z-10">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-900/90 border border-zinc-700/80 text-[#F1D779] text-[10px] font-bold tracking-widest uppercase mb-2.5">
@@ -178,14 +183,14 @@
 
   <!-- GUÍA DE RENDIMIENTO -->
   <section id="yield-section" class="no-print px-4 pt-5">
-    <div class="max-w-6xl mx-auto bg-[#0E1017] border border-zinc-800/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+    <div class="max-w-7xl mx-auto bg-[#0E1017] border border-zinc-800/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3">
       <span class="text-[11px] font-bold text-[#F1D779] flex items-center gap-1.5 shrink-0"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Rendimiento por frasco</span>
       <div class="grid grid-cols-4 gap-2 flex-1"><div class="bg-[#141724] p-2 rounded-xl border border-zinc-800 text-center"><span class="text-[10px] text-zinc-400 block font-semibold">3 ml</span><strong class="text-white text-xs">~45 sprays</strong></div><div class="bg-gradient-to-b from-[#D4AF37]/25 to-[#D4AF37]/10 p-2 rounded-xl border border-[#D4AF37]/50 text-center"><span class="text-[10px] text-[#F1D779] block font-semibold">5 ml</span><strong class="text-white text-xs">~75 sprays</strong></div><div class="bg-[#141724] p-2 rounded-xl border border-zinc-800 text-center"><span class="text-[10px] text-zinc-400 block font-semibold">10 ml</span><strong class="text-white text-xs">~150 sprays</strong></div><div class="bg-[#141724] p-2 rounded-xl border border-zinc-700 text-center"><span class="text-[10px] text-[#F1D779] block font-semibold">Botella</span><strong class="text-white text-xs">Completa</strong></div></div>
     </div>
   </section>
 
   <!-- CONTENIDO PRINCIPAL: FILTROS + CATÁLOGO -->
-  <main id="catalogo" class="scroll-mt-16 flex-1 max-w-6xl w-full mx-auto p-4 flex flex-col gap-5 relative z-10">
+  <main id="catalogo" class="scroll-mt-16 flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-5 relative z-10">
     <section id="search-section" class="no-print bg-[#0E1017]/90 backdrop-blur border border-zinc-800/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-xl">
       <div class="flex items-center gap-2.5 flex-1 min-w-[240px]">
         <div class="relative w-full">
@@ -214,8 +219,8 @@
       </div>
     </section>
 
-    <!-- CATÁLOGO -->
-    <div class="w-full flex justify-center"><div id="catalog-sheet" class="w-full max-w-[860px]"></div></div>
+    <!-- CATÁLOGO (3 Columnas en Tablets y Computadoras) -->
+    <div class="w-full"><div id="catalog-sheet" class="w-full"></div></div>
     <div id="load-more-wrap" class="no-print hidden flex flex-col items-center gap-2 pb-4">
       <span id="catalog-count" class="text-[11px] text-zinc-400"></span>
       <button id="load-more-btn" onclick="loadMorePerfumes()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#F1D779] text-black font-extrabold text-xs hover:brightness-110 active:scale-95 transition">Ver más perfumes</button>
@@ -232,7 +237,7 @@
 
   <!-- CONTACTO Y ENVÍOS -->
   <footer id="contact-footer" class="no-print border-t border-zinc-800/80 bg-[#08090E] px-4 py-8 mt-4">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
       <div><h3 id="ft-name" class="font-heading font-extrabold text-white uppercase text-sm"></h3><p id="ft-tagline" class="text-zinc-400 mt-1"></p></div>
       <div class="space-y-1.5">
         <span class="text-[#D4AF37] font-bold uppercase text-[11px] block">Contacto</span>
@@ -616,7 +621,7 @@
         <p id="inv-current" class="text-[11px] text-[#F1D779]"></p>
         <button type="submit" class="w-full py-2 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#F1D779] text-black font-extrabold">Guardar inventario</button>
       </form>
-      <div class="mt-3 flex items-center gap-2 text-zinc-300">Avisar "pocos ml" cuando queden ≤ <input id="inv-threshold" type="number" min="0" onchange="saveLowThreshold(this.value)" class="w-20 bg-[#181B26] border border-zinc-700 rounded-lg px-2 py-1 text-white"> ml</div>
+      <div class="mt-3 flex items-center gap-2 text-zinc-300">Avisar “pocos ml” cuando queden ≤ <input id="inv-threshold" type="number" min="0" onchange="saveLowThreshold(this.value)" class="w-20 bg-[#181B26] border border-zinc-700 rounded-lg px-2 py-1 text-white"> ml</div>
       <input id="inv-filter" oninput="renderInventoryList()" placeholder="Buscar en existencias..." class="mt-3 w-full bg-[#181B26] border border-zinc-700 rounded-xl px-3 py-1.5 text-white focus:outline-none focus:border-[#D4AF37]">
       <div id="inv-list" class="space-y-1.5 max-h-64 overflow-y-auto mt-2"></div>
     </div>
@@ -627,7 +632,6 @@
   <script>
     const ADMIN_USER = "DIEGO";
     const ADMIN_PASS = "123456789";
-    // Repositorio oficial de Diego
     const GITHUB_REPO = "diegopena0603/diegoscents2026";
 
     let storeConfig = {
@@ -643,7 +647,7 @@
     let fragrances = [];
     let cart = [];
     let isAdminLoggedIn = false;
-    let visibleCount = 10;
+    let visibleCount = 12; // Múltiplo de 3 para que las filas siempre queden completas
 
     function getInitials(name) {
       if (!name) return 'DS';
@@ -673,7 +677,6 @@
       updateCartUI();
       lucide.createIcons();
 
-      // Carga en segundo plano desde R9.json
       await refreshFromRemote();
     }
 
@@ -788,7 +791,7 @@
       const frag = fragrances.find(f => f.id === fragId);
       if (!frag) return;
 
-      document.getElementById('pv-img').src = frag.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(frag.name);
+      document.getElementById('pv-img').src = frag.image || 'https://placehold.co/400x400/090A0F/D4AF37?text=' + encodeURIComponent(frag.name);
       document.getElementById('pv-brand').textContent = frag.brand;
       document.getElementById('pv-name').textContent = frag.name;
       document.getElementById('pv-concentration').textContent = frag.concentration || 'EDP';
@@ -1129,15 +1132,17 @@
       if (!filtered.length) { container.innerHTML = ''; wrap.classList.add('hidden'); emptyState.classList.remove('hidden'); return; }
       emptyState.classList.add('hidden');
       const shown = filtered.slice(0, visibleCount);
-      container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">${shown.map(cardHtml).join('')}</div>`;
+      
+      // Cuadrícula fluida: 1 columna en móvil, 2 en pantallas intermedias, 3 en tablets/laptops/desktop
+      container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">${shown.map(cardHtml).join('')}</div>`;
       wrap.classList.remove('hidden');
       document.getElementById('catalog-count').textContent = `Mostrando ${shown.length} de ${filtered.length} perfumes`;
       document.getElementById('load-more-btn').classList.toggle('hidden', shown.length >= filtered.length);
       lucide.createIcons();
     }
 
-    function loadMorePerfumes() { visibleCount += 10; renderCatalog(); }
-    function filterCatalog() { visibleCount = 10; renderCatalog(); }
+    function loadMorePerfumes() { visibleCount += 12; renderCatalog(); }
+    function filterCatalog() { visibleCount = 12; renderCatalog(); }
 
     function openFragranceModal(isEdit = false) {
       if (!isAdminLoggedIn) {
@@ -1355,7 +1360,7 @@
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const r1 = n => Math.round(n * 10) / 10;
     const fmtMl = n => Number.isInteger(n) ? n : n.toFixed(1);
-    const imgOf = f => f.image || 'https://placehold.co/400x400/11131B/D4AF37?text=' + encodeURIComponent(f.name);
+    const imgOf = f => f.image || 'https://placehold.co/400x400/090A0F/D4AF37?text=' + encodeURIComponent(f.name);
     const hasMl = f => Number.isFinite(f.stock?.ml);
     const hasPcs = f => Number.isFinite(f.stock?.bottles || f.stock?.pieces);
     const getLow = () => storeConfig.lowMlThreshold ?? 15;
@@ -1448,7 +1453,7 @@
 
     function populateInvSelect(sel) {
       const s = document.getElementById('inv-perfume'), cur = sel || s.value || '__new__';
-      s.innerHTML = '<option value="__new__">➕ Perfume nuevo</option>' + fragrances.map(f => `<option value="${f.id}">${esc(f.brand)} -- ${esc(f.name)}</option>`).join('');
+      s.innerHTML = '<option value="__new__">➕ Perfume nuevo</option>' + fragrances.map(f => `<option value="${f.id}">${esc(f.brand)} — ${esc(f.name)}</option>`).join('');
       s.value = [...s.options].some(o => o.value === cur) ? cur : '__new__';
     }
 
@@ -1511,7 +1516,7 @@
         .map(f => {
           const badge = hasMl(f) ? (f.stock.ml <= 0 ? '<span class="px-1.5 rounded bg-red-600/30 text-red-300">Agotado</span>' : f.stock.ml <= getLow() ? '<span class="px-1.5 rounded bg-amber-500/25 text-[#F1D779]">Pocos ml</span>' : '') : '';
           const pcs = f.stock?.bottles ?? f.stock?.pieces;
-          return `<div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-[#141724] border border-zinc-800"><div class="min-w-0"><span class="text-[10px] text-[#D4AF37] font-bold uppercase block">${esc(f.brand)}</span><span class="text-white font-semibold block truncate">${esc(f.name)}</span></div><div class="flex items-center gap-2 shrink-0 text-[11px] text-zinc-300"><span>🧴 ${hasPcs(f) ? pcs : '--'}</span><span>💧 ${hasMl(f) ? fmtMl(f.stock.ml) + ' ml' : '--'}</span>${badge}<button onclick="selectInvPerfume('${f.id}')" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-[#F1D779]">Ajustar</button></div></div>`;
+          return `<div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-[#141724] border border-zinc-800"><div class="min-w-0"><span class="text-[10px] text-[#D4AF37] font-bold uppercase block">${esc(f.brand)}</span><span class="text-white font-semibold block truncate">${esc(f.name)}</span></div><div class="flex items-center gap-2 shrink-0 text-[11px] text-zinc-300"><span>🧴 ${hasPcs(f) ? pcs : '—'}</span><span>💧 ${hasMl(f) ? fmtMl(f.stock.ml) + ' ml' : '—'}</span>${badge}<button onclick="selectInvPerfume('${f.id}')" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-[#F1D779]">Ajustar</button></div></div>`;
         }).join('') || '<p class="text-zinc-500 text-center py-3">Sin resultados</p>';
     }
 
