@@ -16,9 +16,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* ==========================================================================
-       TOKENS EXACTOS APPLE DESIGN.MD
-       ========================================================================== */
     :root {
       --color-gallery-white: #ffffff;
       --color-studio-mist: #f5f5f7;
@@ -31,7 +28,6 @@
       --color-apple-blue: #0066cc;
       --color-pricing-blue: #0071e3;
       --color-launch-orange: #b64400;
-      
       --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     }
 
@@ -52,7 +48,7 @@
       transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ==================== MODO CLARO (WHITE GALLERY SEGÚN DESIGN.MD) ==================== */
+    /* MODO CLARO */
     html:not(.dark), html:not(.dark) body {
       background-color: var(--color-gallery-white) !important;
       color: var(--color-ink) !important;
@@ -67,12 +63,16 @@
       color: var(--color-slate) !important;
     }
     html:not(.dark) #top-navbar {
-      background-color: rgba(255, 255, 255, 0.82) !important;
+      background-color: rgba(255, 255, 255, 0.85) !important;
       border-bottom: 1px solid var(--color-control-gray) !important;
     }
     html:not(.dark) .card-apple {
       background: var(--color-studio-mist) !important;
       border: 1px solid var(--color-hairline-silver) !important;
+    }
+    html:not(.dark) .card-apple:hover {
+      border-color: var(--color-steel) !important;
+      transform: scale(1.015);
     }
     html:not(.dark) .themed-modal-bg {
       background-color: var(--color-gallery-white) !important;
@@ -83,10 +83,6 @@
       background-color: #ffffff !important;
       color: var(--color-ink) !important;
       border: 1px solid var(--color-hairline-silver) !important;
-    }
-    html:not(.dark) .themed-input:focus {
-      border-color: var(--color-pricing-blue) !important;
-      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important;
     }
     html:not(.dark) .themed-subbox {
       background-color: var(--color-studio-mist) !important;
@@ -113,7 +109,7 @@
       border-color: var(--color-ink) !important;
     }
 
-    /* ==================== MODO OSCURO (OBSIDIAN LUXE) ==================== */
+    /* MODO OSCURO */
     html.dark, html.dark body {
       background-color: #000000 !important;
       color: #f5f5f7 !important;
@@ -134,6 +130,10 @@
     html.dark .card-apple {
       background: #161618 !important;
       border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html.dark .card-apple:hover {
+      border-color: rgba(255, 255, 255, 0.25) !important;
+      transform: scale(1.015);
     }
     html.dark .themed-modal-bg {
       background-color: #161618 !important;
@@ -169,14 +169,14 @@
       border-color: #ffffff !important;
     }
 
-    /* ==================== BOTONES Y CONTROLES APPLE (DESIGN.MD) ==================== */
+    /* BOTONES */
     .btn-apple-pill {
       border-radius: 9999px;
       font-size: 13px;
       font-weight: 400;
       letter-spacing: -0.12px;
       padding: 0.55rem 1.25rem;
-      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, filter 0.2s;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, filter 0.2s;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -185,24 +185,19 @@
       text-decoration: none;
     }
     .btn-apple-pill:active { transform: scale(0.95); }
-    
     .btn-pricing-blue {
       background-color: var(--color-pricing-blue) !important;
       color: #ffffff !important;
       border: 0 !important;
     }
     .btn-pricing-blue:hover { filter: brightness(1.08); }
-
     .btn-outline-apple {
       background: transparent !important;
       border: 1px solid var(--color-steel) !important;
       color: inherit !important;
     }
-    .btn-outline-apple:hover {
-      border-color: currentColor !important;
-    }
 
-    /* ==================== HERO Y TIPOGRAFÍA (-1.2px) ==================== */
+    /* HERO */
     .hero-title {
       font-size: clamp(2.4rem, 8vw, 4.8rem);
       font-weight: 600;
@@ -226,94 +221,27 @@
       text-transform: uppercase;
     }
 
-    /* ==================== SUITE DE ANIMACIONES CINEMÁTICAS ==================== */
-    /* 1. Barra de scroll superior */
     #scroll-progress {
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 2px;
-      width: 100%;
-      transform-origin: 0 50%;
-      transform: scaleX(0);
+      top: 0; left: 0; height: 2px; width: 100%;
+      transform-origin: 0 50%; transform: scaleX(0);
       background: var(--color-pricing-blue);
-      z-index: 100;
-      pointer-events: none;
+      z-index: 100; pointer-events: none;
     }
 
-    /* 2. Orbe ambiental flotante con respiración */
-    .ap-orb {
-      position: absolute;
-      left: 50%;
-      top: -18%;
-      width: min(85vw, 680px);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      transform: translate(-50%, calc(var(--sy, 0) * 0.16px));
-      filter: blur(45px);
-      animation: apOrbFloat 12s ease-in-out infinite alternate;
-      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.25), rgba(0, 113, 227, 0.12) 42%, transparent 70%);
-    }
-    @keyframes apOrbFloat {
-      0% { transform: translate(-50%, 0) scale(1); }
-      100% { transform: translate(-46%, 24px) scale(1.08); }
-    }
-
-    /* 3. Aura dinámica del cursor */
-    .ap-cursor-aura {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 420px;
-      height: 420px;
-      margin: -210px 0 0 -210px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      background: radial-gradient(circle, rgba(0, 113, 227, 0.08), rgba(212, 175, 55, 0.05) 45%, transparent 70%);
-      will-change: transform;
-    }
-    .ap-cursor-aura.active { opacity: 1; }
-
-    /* 4. Titular palabra por palabra */
-    .ap-w {
-      display: inline-block;
-      animation: apWordIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-      animation-delay: calc(var(--i) * 55ms + 100ms);
-    }
-    @keyframes apWordIn {
-      from { opacity: 0; transform: translateY(0.5em) scale(0.96); filter: blur(6px); }
-      to { opacity: 1; transform: none; filter: blur(0); }
-    }
-
-    /* 5. Tarjetas 28px con inclinación 3D realista y reflejo Specular */
+    /* TARJETAS 28px */
     .card-apple {
-      position: relative;
       border-radius: 28px !important;
       padding: 1.4rem;
       isolation: isolate;
       overflow: hidden;
       transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.22s ease-out, border-color 0.25s, box-shadow 0.25s;
+      transition: transform 0.25s ease-out, border-color 0.25s;
     }
-    .card-apple::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 3;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.18), transparent 65%);
-    }
-    .card-apple:hover::after { opacity: 1; }
 
-    /* 6. Marcos de botella limpios y flotantes */
+    /* ==========================================================================
+       MARCO DE BOTELLAS TRANSPARENTE CON ELIMINACIÓN DE FONDO NEGRO
+       ========================================================================== */
     .stage-bottle {
       position: relative;
       height: 13rem;
@@ -322,20 +250,25 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: transparent;
+      background: transparent !important;
     }
     .stage-bottle img, #pv-img {
       max-height: 100%;
       max-width: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.22));
+      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.25));
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent !important;
+    }
+    /* En modo oscuro se fuerza el blend screen para eliminar cualquier rastro negro no transparente */
+    html.dark .stage-bottle img, html.dark #pv-img {
+      mix-blend-mode: screen;
     }
     .card-apple:hover .stage-bottle img {
-      transform: translateY(-8px) scale(1.06);
+      transform: translateY(-6px) scale(1.05);
     }
 
-    /* 7. Vial de medidas con oleaje */
+    /* VIAL DE MEDIDAS */
     .vial-glass {
       position: relative;
       height: 140px;
@@ -356,101 +289,39 @@
       height: 30%;
       transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .vial-liquid::before {
-      content: "";
-      position: absolute;
-      top: -4px; left: -10%;
-      width: 120%; height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
-      animation: vialSway 3s ease-in-out infinite alternate;
-    }
-    @keyframes vialSway { to { transform: translateX(6%); } }
 
-    /* 8. Vuelo hacia la bolsa al agregar */
-    .fly-dot {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      margin: -10px 0 0 -10px;
-      border-radius: 50%;
-      z-index: 500;
-      pointer-events: none;
-      background: radial-gradient(circle at 35% 30%, #FFE29F, #D4AF37 60%, var(--color-pricing-blue));
-      box-shadow: 0 0 16px 3px rgba(0, 113, 227, 0.6);
-    }
-    .cart-bump { animation: appleBump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .cart-bump { animation: appleBump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     @keyframes appleBump {
-      35% { transform: scale(1.18); }
-      70% { transform: scale(0.95); }
+      40% { transform: scale(1.15); }
       100% { transform: scale(1); }
     }
+    .fly-dot {
+      position: fixed;
+      width: 18px; height: 18px;
+      margin: -9px 0 0 -9px;
+      border-radius: 50%;
+      z-index: 500; pointer-events: none;
+      background: var(--color-pricing-blue);
+      box-shadow: 0 0 14px 2px rgba(0, 113, 227, 0.6);
+    }
 
-    /* 9. Scroll Stagger Entrada */
     .apple-in {
       opacity: 0;
-      transform: translateY(26px) scale(0.98);
-      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .apple-in.show {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
     }
 
-    /* 10. Intro Splash de marca (1 por sesión) */
-    #apple-brand-splash {
-      position: fixed;
-      inset: 0;
-      z-index: 900;
-      background: #000000;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      cursor: pointer;
-    }
-    .splash-wordmark {
-      font-size: clamp(1.8rem, 6.5vw, 3.2rem);
-      font-weight: 600;
-      letter-spacing: 0.26em;
-      padding-left: 0.26em;
-      display: flex;
-    }
-    .splash-wordmark span {
-      display: inline-block;
-      animation: splashRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-    }
-    @keyframes splashRise {
-      from { opacity: 0; transform: translateY(28px); filter: blur(8px); }
-      to { opacity: 1; transform: none; filter: blur(0); }
-    }
-    .splash-line {
-      height: 1.5px;
-      width: 0;
-      background: linear-gradient(90deg, transparent, #D4AF37, var(--color-pricing-blue), transparent);
-      animation: lineExpand 1s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes lineExpand { to { width: min(80vw, 220px); } }
-
-    /* Auto-hide navbar */
-    #top-navbar {
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
-    }
-    #top-navbar.nav-hidden {
-      transform: translateY(-110%);
-    }
-
-    /* Botones flotantes */
     .fab {
       position: fixed;
       z-index: 40;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: 50%;
       border: 1px solid var(--color-hairline-silver);
       cursor: pointer;
@@ -478,11 +349,7 @@
       transform: translateY(0);
     }
 
-    /* Transición Onda Día/Noche */
-    ::view-transition-old(root), ::view-transition-new(root) {
-      animation: none;
-      mix-blend-mode: normal;
-    }
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
     ::view-transition-old(root) { z-index: 1; }
     ::view-transition-new(root) { z-index: 2; }
   </style>
@@ -507,13 +374,13 @@
         </button>
 
         <div class="flex items-center gap-2 cursor-pointer" onclick="triggerLogoUpload()" title="Cambiar Logo">
-          <div class="w-8 h-8 rounded-full border border-black/10 dark:border-white/20 p-[1.5px] flex items-center justify-center transition-transform hover:scale-105">
+          <div class="w-8 h-8 rounded-full border border-black/10 dark:border-white/20 p-[1.5px] flex items-center justify-center">
             <div class="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden">
               <img id="header-logo-img" src="" alt="Logo" class="hidden w-full h-full object-contain p-0.5">
               <span id="header-logo-icon" class="text-white font-semibold text-[11px]">DS</span>
             </div>
           </div>
-          <input type="file" id="quick-logo-input" accept="image/*" class="hidden" onchange="handleDirectLogoUpload(event)">
+          <input type="file" id="quick-logo-input" accept="image/png, image/webp" class="hidden" onchange="handleDirectLogoUpload(event)">
 
           <div>
             <h1 id="header-store-name" class="apple-title font-semibold text-sm tracking-tight leading-tight">
@@ -549,7 +416,6 @@
           <span id="theme-icon"><i data-lucide="moon" class="w-4 h-4 text-[#0066cc]"></i></span>
         </button>
 
-        <!-- BOLSA DE PEDIDO (PRICING BLUE PILL) -->
         <button onclick="toggleCartDrawer()" class="btn-apple-pill btn-pricing-blue py-1.5 px-3.5">
           <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
           <span>Bolsa (<span id="cart-count">0</span>)</span>
@@ -559,16 +425,12 @@
     </div>
   </header>
 
-  <!-- HERO SHOWCASE (WHITE GALLERY APPLE) -->
-  <section id="hero" class="no-print relative overflow-hidden py-14 sm:py-20 px-4 text-center">
-    <div class="ap-orb" aria-hidden="true"></div>
-
-    <div class="max-w-4xl mx-auto relative z-10">
-      
+  <!-- HERO SHOWCASE -->
+  <section id="hero" class="no-print py-14 sm:py-20 px-4 text-center">
+    <div class="max-w-4xl mx-auto">
       <span class="launch-tag inline-block mb-3">Nueva Curaduría &bull; 100% Originales</span>
 
-      <!-- TITULAR PALABRA POR PALABRA ANIMADO -->
-      <h2 class="hero-title apple-title" id="hero-title-text">
+      <h2 class="hero-title apple-title">
         Lleva el perfume que quieres, en la medida que quieres.
       </h2>
 
@@ -586,15 +448,14 @@
         </button>
       </div>
 
-      <!-- TRUST PILLS -->
       <div class="flex flex-wrap justify-center gap-6 mt-10 text-xs apple-sub">
         <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-[#0066cc]"></i> 100% Auténticos Garantizados</span>
         <span class="flex items-center gap-1.5"><i data-lucide="truck" class="w-4 h-4 text-[#0066cc]"></i> Envíos Express a Todo México</span>
         <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-[#0066cc]"></i> Entregas Personales en Puebla</span>
       </div>
 
-      <!-- SIMULADOR VIAL APPLE (28px CARD) -->
-      <div class="mt-12 w-full max-w-lg mx-auto card-apple flex flex-col sm:flex-row items-center gap-6 text-left" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
+      <!-- SIMULADOR VIAL -->
+      <div class="mt-12 w-full max-w-lg mx-auto card-apple flex flex-col sm:flex-row items-center gap-6 text-left">
         <div class="shrink-0 text-center">
           <div class="vial-cap"></div>
           <div class="vial-glass">
@@ -617,7 +478,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -633,7 +493,6 @@
         </button>
       </div>
 
-      <!-- ARMARIO / FAVORITOS -->
       <div class="p-4 rounded-2xl themed-subbox space-y-2.5">
         <span class="text-[10px] uppercase tracking-wider text-[#0066cc] font-bold block">Tu Armario &bull; Favoritos</span>
         <div class="flex items-center justify-between">
@@ -644,7 +503,6 @@
         </div>
       </div>
 
-      <!-- RENDIMIENTO POR DECANT -->
       <div class="p-4 rounded-2xl themed-subbox space-y-2 text-center">
         <span class="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block">Rendimiento por Frasco</span>
         <div class="grid grid-cols-4 gap-1.5 text-[10px] pt-1">
@@ -655,7 +513,6 @@
         </div>
       </div>
 
-      <!-- PREFERENCIAS -->
       <div class="p-4 rounded-2xl themed-subbox space-y-2">
         <span class="text-[10px] uppercase tracking-wider text-zinc-400 font-bold block">Preferencias</span>
         <div class="flex items-center justify-between gap-2">
@@ -670,7 +527,6 @@
         </div>
       </div>
 
-      <!-- ADMINISTRADOR -->
       <div class="p-4 rounded-2xl themed-subbox border border-[#0066cc]/30 space-y-2.5">
         <div class="flex items-center justify-between">
           <span class="text-[10px] uppercase tracking-wider text-[#0066cc] font-semibold flex items-center gap-1.5">
@@ -699,7 +555,7 @@
 
   <!-- ORÁCULO DE DECISIÓN -->
   <section id="caldero" class="no-print py-8 px-4">
-    <div class="max-w-4xl mx-auto card-apple flex flex-col sm:flex-row items-center gap-6" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
+    <div class="max-w-4xl mx-auto card-apple flex flex-col sm:flex-row items-center gap-6">
       <div class="p-4 rounded-2xl bg-black/5 dark:bg-white/5 text-center shrink-0">
         <i data-lucide="sparkles" class="w-8 h-8 text-[#0066cc] mx-auto mb-1"></i>
         <span class="text-[10px] font-semibold uppercase text-[#0066cc]">Oráculo</span>
@@ -729,9 +585,8 @@
     <div id="curated-shelf" class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
   </section>
 
-  <!-- CATÁLOGO PRINCIPAL (PURA GALERÍA APPLE) -->
+  <!-- CATÁLOGO PRINCIPAL -->
   <main id="catalogo" class="scroll-mt-16 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-8 flex flex-col gap-6 relative z-10">
-    
     <div class="text-center space-y-1">
       <h2 class="apple-title text-3xl font-semibold tracking-tight">
         Catálogo de Fragancias &amp; Decants
@@ -739,7 +594,7 @@
       <p class="apple-sub text-xs max-w-md mx-auto">Atomizadores herméticos de vidrio de alta precisión.</p>
     </div>
 
-    <!-- BARRA DE FILTROS CÁPSULA -->
+    <!-- FILTROS -->
     <section id="search-section" class="no-print card-apple p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
       <div class="relative flex-1">
         <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3.5 top-3 opacity-40"></i>
@@ -773,7 +628,7 @@
       </div>
     </section>
 
-    <!-- CHIPS DE CATEGORÍA -->
+    <!-- CHIPS -->
     <div class="cat-chips no-print flex gap-2 overflow-x-auto pb-1" role="group">
       <button class="cat-chip active" data-g="ALL">Todas</button>
       <button class="cat-chip" data-g="Unisex">Unisex</button>
@@ -781,10 +636,9 @@
       <button class="cat-chip" data-g="Femenino">Femenino</button>
     </div>
 
-    <!-- CUADRÍCULA DE PERFUMES RESPONSIVA -->
+    <!-- CUADRÍCULA -->
     <div id="catalog-sheet" class="w-full"></div>
 
-    <!-- CARGAR MÁS -->
     <div id="load-more-wrap" class="no-print hidden flex flex-col items-center gap-2 pt-4 pb-8">
       <span id="catalog-count" class="text-xs subtext"></span>
       <button id="load-more-btn" onclick="loadMorePerfumes()" class="btn-apple-pill btn-outline-apple py-2 px-6 text-xs">
@@ -860,7 +714,7 @@
     </div>
   </div>
 
-  <!-- BOLSA DE PEDIDO (DRAWER DERECHO) -->
+  <!-- BOLSA DE PEDIDO -->
   <div id="cart-drawer" class="no-print fixed inset-y-0 right-0 z-50 w-full max-w-md themed-modal-bg shadow-2xl p-6 flex flex-col justify-between hidden text-xs overflow-y-auto">
     <div>
       <div class="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
@@ -912,7 +766,7 @@
     </div>
   </div>
 
-  <!-- MODAL EDITAR / AGREGAR FRAGANCIA -->
+  <!-- MODAL AGREGAR / EDITAR -->
   <div id="fragrance-modal" class="no-print fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex p-3 overflow-y-auto">
     <div class="themed-modal-bg rounded-3xl w-full max-w-lg p-6 relative text-xs m-auto">
       <button onclick="closeFragranceModal()" class="absolute top-4 right-4 subtext hover:text-black dark:hover:text-white">
@@ -938,12 +792,12 @@
         </div>
 
         <div class="p-3 rounded-2xl themed-subbox space-y-2">
-          <label class="block font-semibold">Fotografía de la Botella</label>
+          <label class="block font-semibold">Fotografía de la Botella (PNG Transparente)</label>
           <div class="flex items-center gap-2">
-            <input type="text" id="frag-image-url" placeholder="URL directa o base64" oninput="updateImagePreview(this.value)" class="flex-1 themed-input rounded-xl px-3 py-1.5 text-[11px]">
+            <input type="text" id="frag-image-url" placeholder="URL directa o PNG base64" oninput="updateImagePreview(this.value)" class="flex-1 themed-input rounded-xl px-3 py-1.5 text-[11px]">
             <label class="cursor-pointer px-3 py-1.5 rounded-full btn-outline-apple text-[10px] shrink-0">
-              <span>Subir</span>
-              <input type="file" accept="image/*" class="hidden" onchange="handleLocalImageUpload(event)">
+              <span>Subir PNG</span>
+              <input type="file" accept="image/png, image/webp" class="hidden" onchange="handleLocalImageUpload(event)">
             </label>
           </div>
           <div class="w-14 h-16 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center overflow-hidden">
@@ -1036,7 +890,7 @@
     </div>
   </div>
 
-  <!-- MODAL CALCULADORA DE COSTO DE DECANTS -->
+  <!-- MODAL CALCULADORA DECANT -->
   <div id="decant-modal" class="no-print fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4 text-xs">
     <div class="themed-modal-bg rounded-3xl w-full max-w-2xl relative flex flex-col" style="max-height:92vh">
       <div class="flex items-center justify-between px-5 py-3 border-b border-black/10 dark:border-white/10">
@@ -1264,6 +1118,7 @@
 
       await refreshFromRemote();
       openFragFromUrl();
+      scanAndCleanImages();
     }
 
     let remoteReady = false;
@@ -1277,6 +1132,7 @@
         if (Array.isArray(data.fragrances)) fragrances = data.fragrances;
         remoteReady = true;
         saveLocalData(); updateStoreBrandHeader(); populateBrandFilter(); renderCatalog(); renderCuratedShelf(); updateCartUI();
+        scanAndCleanImages();
       } catch (e) { console.warn('R9.json en espera de sincronización.'); }
     }
 
@@ -1352,6 +1208,7 @@
         `;
       }).join('');
       lucide.createIcons();
+      scanAndCleanImages();
     }
 
     function getCurrencySymbol() { return document.getElementById('sidebar-currency-symbol')?.value || '$'; }
@@ -1477,6 +1334,7 @@
       document.getElementById('load-more-btn').classList.toggle('hidden', shown.length >= filtered.length);
       lucide.createIcons();
       scanReveal();
+      scanAndCleanImages();
     }
 
     function loadMorePerfumes() { visibleCount += 12; renderCatalog(); }
@@ -1488,8 +1346,6 @@
       const py = (e.clientY - rect.top) / rect.height;
       card.style.setProperty('--ry', ((px - 0.5) * 8).toFixed(2) + 'deg');
       card.style.setProperty('--rx', (-(py - 0.5) * 8).toFixed(2) + 'deg');
-      card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-      card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
     }
     function resetCardTilt(card) {
       card.style.setProperty('--rx', '0deg');
@@ -1523,6 +1379,7 @@
 
       document.getElementById('product-page-view').classList.remove('hidden');
       lucide.createIcons();
+      scanAndCleanImages();
     }
 
     function closeProductView() {
@@ -1741,15 +1598,94 @@
       else { img.src = ''; img.classList.add('hidden'); ph.classList.remove('hidden'); }
     }
 
+    // =========================================================================
+    // CARGADOR Y LIMPIADOR PNG SIN FONDO NEGRO
+    // =========================================================================
+    function cleanBlackBackground(img) {
+      const maxDim = 800;
+      let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+      if (!w || !h) return null;
+      if (Math.max(w, h) > maxDim) {
+        const k = maxDim / Math.max(w, h);
+        w = Math.round(w * k);
+        h = Math.round(h * k);
+      }
+      const cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      const ctx = cv.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, w, h);
+      const im = ctx.getImageData(0, 0, w, h), d = im.data;
+
+      const isBlack = i => d[i + 3] < 20 || (d[i] <= 24 && d[i + 1] <= 24 && d[i + 2] <= 24);
+
+      // Si las esquinas son negras, significa que trae marco negro y procedemos a removerlo
+      const corners = [0, (w - 1) * 4, (h - 1) * w * 4, ((h - 1) * w + (w - 1)) * 4];
+      if (!corners.some(i => isBlack(i))) return null;
+
+      const seen = new Uint8Array(w * h), stack = [];
+      const push = (x, y) => {
+        if (x < 0 || y < 0 || x >= w || y >= h) return;
+        const k = y * w + x;
+        if (seen[k]) return;
+        if (!isBlack(k * 4)) return;
+        seen[k] = 1;
+        stack.push(k);
+      };
+
+      for (let x = 0; x < w; x++) { push(x, 0); push(x, h - 1); }
+      for (let y = 0; y < h; y++) { push(0, y); push(w - 1, y); }
+
+      while (stack.length) {
+        const k = stack.pop(), x = k % w, y = (k - x) / w;
+        push(x + 1, y); push(x - 1, y); push(x, y + 1); push(x, y - 1);
+      }
+
+      for (let k = 0; k < seen.length; k++) {
+        if (seen[k]) d[k * 4 + 3] = 0; // Transparencia total a todo el fondo conectado
+      }
+
+      ctx.putImageData(im, 0, 0);
+      return cv.toDataURL('image/png'); // Siempre regresa PNG con transparencia
+    }
+
     function handleLocalImageUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('frag-image-url').value = e.target.result;
-        updateImagePreview(e.target.result);
+        const raw = e.target.result;
+        const img = new Image();
+        img.onload = function() {
+          let out = raw;
+          try {
+            out = cleanBlackBackground(img) || raw;
+          } catch(err) {
+            console.warn('Limpieza de imagen:', err);
+          }
+          document.getElementById('frag-image-url').value = out;
+          updateImagePreview(out);
+          showToast('Imagen procesada en PNG transparente');
+        };
+        img.src = raw;
       };
       reader.readAsDataURL(file);
+    }
+
+    // Escáner automático de fotos ya guardadas en el catálogo
+    function scanAndCleanImages() {
+      const imgs = document.querySelectorAll('.stage-bottle img, #pv-img');
+      imgs.forEach(img => {
+        if (img._cleaned) return;
+        const process = () => {
+          img._cleaned = true;
+          try {
+            const cleaned = cleanBlackBackground(img);
+            if (cleaned) img.src = cleaned;
+          } catch(e) {}
+        };
+        if (img.complete && img.naturalWidth > 0) process();
+        else img.addEventListener('load', process, { once: true });
+      });
     }
 
     async function handleFragranceSubmit(e) {
@@ -1977,7 +1913,7 @@
       const key = (kind === 'bottles') ? 'bottles' : 'ml';
       const base = Number.isFinite(f.stock[key]) ? f.stock[key] : 0;
       f.stock[key] = r1(mode === 'add' ? base + qty : qty);
-      saveLocalData(); renderCatalog(); renderCuratedShelf(); updateCartUI();
+      saveLocalData(); populateBrandFilter(); renderCatalog(); renderCuratedShelf(); updateCartUI();
       invChanged(); renderInventoryList();
       document.getElementById('inv-qty').value = '';
       showToast('Inventario actualizado');
@@ -2217,6 +2153,7 @@
         `;
         btn.disabled = false;
         lucide.createIcons();
+        scanAndCleanImages();
       }, 350);
     };
   })();
