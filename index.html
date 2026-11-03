@@ -710,6 +710,28 @@
       html #print-sheet .text-zinc-500 { color:#71717a !important; }
       html #print-sheet [class*="border-zinc"] { border-color:#3f3f46 !important; }
     }
+
+    /* ===== AJUSTES MÓVIL ===== */
+    /* Bolsa de pedido: nunca más ancha que la pantalla */
+    #cart-drawer{width:100%;max-width:min(28rem,100vw);height:100vh;height:100dvh;box-sizing:border-box;overflow-x:hidden;overscroll-behavior:contain;padding-bottom:calc(1.25rem + env(safe-area-inset-bottom,0px))}
+    #cart-drawer *{box-sizing:border-box;min-width:0}
+    #cart-drawer button{flex-shrink:0}
+    #cart-drawer .grid>*{min-width:0}
+    #cart-drawer input,#cart-drawer select{width:100%;max-width:100%}
+    #cart-items-container{overflow-x:hidden}
+    #cart-items-container>div{flex-wrap:wrap}
+    @media(max-width:640px){
+      #cart-drawer{padding-left:.9rem;padding-right:.9rem}
+      #cart-drawer input{font-size:16px !important}
+      #cart-items-container{max-height:34vh}
+    }
+    /* En pantallas táctiles el "hover" se queda pegado al tocar y se come el clic de los botones de ml:
+       se quitan solo los movimientos de hover (en computadora todo sigue igual) */
+    @media (hover:none){
+      .card-silloria:hover,html.dark .card-silloria:hover,html:not(.dark) .card-silloria:hover{transform:none !important}
+      .card-silloria:hover img{transform:none !important}
+      .hero-btn:hover,.vial-size:hover,.cat-chip:hover{transform:none !important}
+    }
   </style>
 </head>
 <body class="flex flex-col antialiased selection:bg-[#FF8A00] selection:text-black min-h-screen w-full">
@@ -718,7 +740,7 @@
 
   <!-- TOP EDITORIAL BAR -->
   <div class="no-print border-b border-white/10 dark:border-white/10 border-zinc-300 text-[10px] uppercase tracking-luxury font-semibold py-1 px-4 text-center bg-black/40 text-zinc-400">
-    <span>DIEGO SCENTS &bull; MUESTRAS DE LUJO 🎃 &bull; DECANTS AUTÉNTICOS &bull; ENVÍOS EXPRESS</span>
+    <span>DIEGO SCENTS &bull; MUESTRAS DE LUJO &bull; DECANTS AUTÉNTICOS &bull; ENVÍOS EXPRESS</span>
   </div>
 
   <!-- NAVBAR LIMPIO Y ADAPTABLE (CERO DESBORDES EN MÓVIL, TABLET O PC) -->
@@ -746,7 +768,7 @@
 
           <div>
             <h1 id="header-store-name" class="font-editorial text-sm sm:text-base tracking-wider uppercase font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-1">
-              DIEGO SCENTS <span class="text-xs">🎃</span>
+              DIEGO SCENTS
             </h1>
             <p class="text-[8px] sm:text-[9px] uppercase tracking-luxury text-gold font-semibold leading-none truncate max-w-[46vw] sm:max-w-none">
               Decants Auténticos &amp; Muestras de Lujo
@@ -793,13 +815,8 @@
   <!-- HERO DE BIENVENIDA -->
   <section id="hero" class="no-print hero">
     <div class="hero-glow" aria-hidden="true"></div>
-    <div class="hw-moon" aria-hidden="true"></div>
-    <span class="hw-bat" aria-hidden="true">🦇</span><span class="hw-bat" aria-hidden="true">🦇</span><span class="hw-bat" aria-hidden="true">🦇</span>
-    <span class="hw-bat rev" aria-hidden="true" style="top:8%;font-size:26px;animation-duration:19s;animation-delay:-3s">🦇</span><span class="hw-bat" aria-hidden="true" style="top:22%;font-size:14px;animation-duration:26s;animation-delay:-11s">🦇</span><span class="hw-bat rev" aria-hidden="true" style="top:40%;font-size:20px;animation-duration:21s;animation-delay:-6s">🦇</span><span class="hw-bat" aria-hidden="true" style="top:48%;font-size:30px;animation-duration:32s;animation-delay:-19s">🦇</span><span class="hw-bat rev" aria-hidden="true" style="top:66%;font-size:15px;animation-duration:24s;animation-delay:-9s">🦇</span><span class="hw-bat" aria-hidden="true" style="top:78%;font-size:22px;animation-duration:28s;animation-delay:-14s">🦇</span>
-    <svg class="hw-web" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1"><path d="M0 0H120M0 0V120M0 0L100 100M0 0L120 52M0 0L52 120"/><path d="M28 0Q24 24 0 28M56 0Q46 46 0 56M86 0Q70 70 0 86M118 0Q92 92 0 118"/></g></svg>
     <div class="hero-inner">
       <div class="hero-copy">
-        <p id="hw-count" class="hw-chip" style="display:none"></p>
         <h2 class="hero-title">Tu muestra de lujo al mejor precio.</h2>
         <p class="hero-sub">Decants sellados de 3, 5 y 10 ml o botella completa. 100% originales, con envíos a toda la república y entregas personales en Izúcar de Matamoros, Puebla.</p>
         <div class="hero-cta">
@@ -832,7 +849,7 @@
         <li class="themed-subbox border"><b>2</b><span>Escoge 3, 5 o 10 ml, o la botella completa.</span></li>
         <li class="themed-subbox border"><b>3</b><span>Lo recibes en cualquier parte de la república.</span></li>
       <nav class="hero-nav" aria-label="Secciones de la página">
-        <a href="#catalogo">Catálogo</a><a href="#como-funciona">Cómo funciona</a><a href="#caldero">Caldero</a><a href="#preguntas">Preguntas</a><a href="#contact-footer">Contacto</a>
+        <a href="#catalogo">Catálogo</a><a href="#como-funciona">Cómo funciona</a><a href="#caldero">Sorpresa</a><a href="#preguntas">Preguntas</a><a href="#contact-footer">Contacto</a>
       </nav>
       </ol>
     </div>
@@ -849,7 +866,7 @@
     <div class="space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/10 border-zinc-300">
         <div class="flex items-center gap-2">
-          <span class="text-base text-gold">🎃</span>
+          <span class="text-base text-gold">✦</span>
           <h3 class="font-editorial text-base font-semibold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Centro de Control</h3>
         </div>
         <button onclick="toggleSidebarDrawer()" class="p-1.5 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white transition">
@@ -936,17 +953,17 @@
   <!-- ESTANTE RÁPIDO "COMBINA CON TU ARMARIO" (SELECCIONADO PARA TI) -->
   <!-- ========================================================================= -->
   <div class="marquee no-print" aria-hidden="true"><div class="marquee-track">
-    <span>🎃 Decants auténticos</span><span>🦇 Envíos a toda la república</span><span>👻 100% originales</span><span>🕸️ Envíos express</span><span>🕯️ Desde Izúcar de Matamoros, Puebla</span>
-    <span>🎃 Decants auténticos</span><span>🦇 Envíos a toda la república</span><span>👻 100% originales</span><span>🕸️ Envíos express</span><span>🕯️ Desde Izúcar de Matamoros, Puebla</span>
+    <span>✦ Decants auténticos</span><span>✦ Envíos a toda la república</span><span>✦ 100% originales</span><span>✦ Envíos express</span><span>✦ Desde Izúcar de Matamoros, Puebla</span>
+    <span>✦ Decants auténticos</span><span>✦ Envíos a toda la república</span><span>✦ 100% originales</span><span>✦ Envíos express</span><span>✦ Desde Izúcar de Matamoros, Puebla</span>
   </div></div>
 
   <section id="caldero" class="no-print cauldron">
     <div class="cauldron-inner themed-subbox border">
       <div class="pot" id="cauldron-pot" aria-hidden="true"><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span><div class="pot-brew"></div><div class="pot-body"></div></div>
       <div>
-        <h3>¿No sabes cuál elegir? Que lo decida el caldero.</h3>
+        <h3>¿No sabes cuál elegir? Deja que te sorprendamos.</h3>
         <p class="hero-sub" style="margin-top:.6rem">Te sacamos una fragancia al azar, siempre con alguna opción disponible.</p>
-        <button id="cauldron-btn" onclick="invokeCauldron()" class="hero-btn hero-btn-primary" style="margin-top:1rem">Invocar un perfume</button>
+        <button id="cauldron-btn" onclick="invokeCauldron()" class="hero-btn hero-btn-primary" style="margin-top:1rem">Sugerir un perfume</button>
         <div id="cauldron-result" aria-live="polite"></div>
       </div>
     </div>
@@ -974,7 +991,7 @@
     <div class="text-center space-y-0.5">
       <span class="text-[9px] uppercase tracking-luxury text-gold font-bold">The Scent Archive</span>
       <h2 class="font-editorial text-2xl sm:text-3xl text-zinc-900 dark:text-zinc-50 font-normal">
-        Catálogo de Fragancias &amp; Decants 🎃
+        Catálogo de Fragancias &amp; Decants
       </h2>
       <div class="w-10 h-[1px] bg-gold/50 mx-auto mt-1.5"></div>
     </div>
@@ -1526,8 +1543,6 @@
     </div>
   </footer>
 
-  <button id="fab-ghost" class="fab no-print" onclick="ghostBoo()" aria-label="Un susto de Halloween" title="¡Tócame!">👻</button>
-  <div id="spooky-rain" aria-hidden="true"></div>
   <button id="fab-wa" class="fab no-print" onclick="contactWhatsApp()" aria-label="Escribir por WhatsApp"><i data-lucide="message-circle" class="w-5 h-5"></i></button>
   <button id="fab-top" class="fab no-print" onclick="window.scrollTo({top:0})" aria-label="Volver arriba"><i data-lucide="arrow-up" class="w-5 h-5"></i></button>
 
@@ -1593,7 +1608,7 @@
     function toggleTheme() {
       const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
       setTheme(nextTheme);
-      showToast(`Apariencia: ${nextTheme === 'dark' ? 'Modo Noche (Obsidian Halloween)' : 'Modo Día (Arena Mate Confort)'}`);
+      showToast(`Apariencia: ${nextTheme === 'dark' ? 'Modo Noche' : 'Modo Día'}`);
     }
 
     function setTheme(theme) {
@@ -2716,17 +2731,6 @@
   <script>
   (function(){
     const $ = id => document.getElementById(id);
-    function tick(){
-      const el = $('hw-count'); if (!el) return;
-      const now = new Date();
-      let t = new Date(now.getFullYear(), 9, 31, 23, 59, 59);
-      if (now > t) t = new Date(now.getFullYear() + 1, 9, 31, 23, 59, 59);
-      const ms = t - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5);
-      if (d > 45) { el.style.display = 'none'; return; }
-      el.style.display = 'inline-flex';
-      el.textContent = d > 0 ? '🎃 Faltan ' + d + (d === 1 ? ' día' : ' días') + ' y ' + h + ' h para Halloween' : '🎃 Halloween termina en ' + h + ' h';
-    }
-    tick(); setInterval(tick, 60000);
 
     let last = null;
     function pool(){
@@ -2742,35 +2746,14 @@
         let f; do { f = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && f.id === last);
         last = f.id;
         out.innerHTML = '<div class="cauldron-card themed-input"><img src="' + esc(imgOf(f)) + '" alt="' + esc(f.name) + '"><div><span class="cc-brand">' + esc(f.brand) + '</span><strong class="cc-name">' + esc(f.name) + '</strong><p class="cc-notes">' + esc(f.notes || '') + '</p><button class="hero-btn hero-btn-primary" onclick="openProductView(\'' + f.id + '\')">Ver detalles</button></div></div>';
-        pot.classList.remove('brewing'); btn.disabled = false; btn.textContent = 'Invocar otro';
+        pot.classList.remove('brewing'); btn.disabled = false; btn.textContent = 'Sugerir otro';
       }, wait);
     };
   })();
   </script>
 
   <script>
-  (function(){
-    const E = ['🎃','🍬','🦇','👻','🕷️','🍭'];
-    const rain = document.getElementById('spooky-rain');
-    for (let i = 0; i < 12; i++) {
-      const e = document.createElement('span');
-      e.textContent = E[i % E.length];
-      e.style.cssText = 'left:' + (4 + i * 8) + '%;font-size:' + (14 + (i * 5) % 14) + 'px;animation-duration:' + (16 + (i * 7) % 14) + 's;animation-delay:-' + ((i * 5) % 20) + 's';
-      rain.appendChild(e);
-    }
-    window.ghostBoo = function(){
-      const r = document.getElementById('fab-ghost').getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      for (let i = 0; i < 22; i++) {
-        const e = document.createElement('span'), a = Math.random() * Math.PI * 2, d = 90 + Math.random() * 170;
-        e.className = 'boo-p'; e.textContent = E[i % E.length];
-        e.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;--dx:' + (Math.cos(a) * d) + 'px;--dy:' + (Math.sin(a) * d - 60) + 'px;font-size:' + (16 + Math.random() * 16) + 'px';
-        document.body.appendChild(e); setTimeout(() => e.remove(), 1500);
-      }
-      showToast('¡Bu! 👻 Feliz Halloween');
-    };
-  })();
-
-  /* Guardado automático en GitHub (la función no existía en el archivo original) */
+    /* Guardado automático en GitHub (la función no existía en el archivo original) */
   let _syncChain = Promise.resolve();
   function syncToGitHub(){ _syncChain = _syncChain.then(doGitHubSync, doGitHubSync); return _syncChain; }
   async function doGitHubSync(){
