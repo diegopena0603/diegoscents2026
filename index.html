@@ -732,6 +732,24 @@
       .card-silloria:hover img{transform:none !important}
       .hero-btn:hover,.vial-size:hover,.cat-chip:hover{transform:none !important}
     }
+
+    /* Barra superior: el botón Bolsa siempre cabe (pantallas angostas como el Flip) */
+    #top-navbar>div{min-width:0}
+    #top-navbar>div>div:first-child{min-width:0;flex:1 1 auto}
+    #top-navbar .space-x-2{min-width:0}
+    #top-navbar .space-x-2>div:last-child{min-width:0}
+    #top-navbar #header-store-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #top-navbar p{max-width:100% !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    #top-navbar>div>div:last-child{flex-shrink:0}
+    @media(max-width:480px){
+      #top-navbar{padding-left:.5rem;padding-right:.5rem}
+      #top-navbar>div{gap:.4rem}
+      #top-navbar button[onclick*="toggleCartDrawer"]{padding:.4rem .7rem !important;font-size:11px !important;white-space:nowrap}
+    }
+    @media(max-width:360px){
+      #top-navbar p{display:none}
+      #top-navbar #header-store-name{font-size:13px !important}
+    }
   </style>
 </head>
 <body class="flex flex-col antialiased selection:bg-[#FF8A00] selection:text-black min-h-screen w-full">
