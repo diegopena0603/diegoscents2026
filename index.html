@@ -750,6 +750,105 @@
       #top-navbar p{display:none}
       #top-navbar #header-store-name{font-size:13px !important}
     }
+
+    /* ===== PULIDO PROFESIONAL (solo visual, no cambia contenido) ===== */
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+    ::selection{background:rgba(0,113,227,.22)}
+    /* Barra superior: cristal esmerilado con línea fina */
+    #top-navbar{-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--ap-hair) !important;box-shadow:none !important}
+    /* Títulos y textos más ordenados */
+    h1,h2,h3{letter-spacing:-.022em;text-wrap:balance}
+    p{text-wrap:pretty}
+    /* Precios con cifras alineadas */
+    .vial-price,[class*="price"],#cart-total,#cart-items-container{font-variant-numeric:tabular-nums}
+    /* Tarjetas: bordes finos y sombra suave consistente */
+    html .card-silloria,html.dark .card-silloria,html:not(.dark) .card-silloria{border-radius:20px !important;border:1px solid var(--ap-hair) !important;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px -12px rgba(0,0,0,.12) !important;transition:box-shadow .3s ease,transform .3s ease,border-color .3s ease}
+    @media (hover:hover) and (pointer:fine){
+      html .card-silloria:hover{box-shadow:0 2px 4px rgba(0,0,0,.05),0 18px 40px -16px rgba(0,0,0,.2) !important}
+    }
+    /* Botones y chips: transición uniforme y tamaño táctil cómodo */
+    .hero-btn,.vial-size,.cat-chip{transition:transform .2s ease,background-color .2s ease,color .2s ease,border-color .2s ease,filter .2s ease;-webkit-tap-highlight-color:transparent}
+    .hero-btn:active,.vial-size:active,.cat-chip:active{transform:scale(.97)}
+    button,a,input,select,textarea,summary{-webkit-tap-highlight-color:transparent}
+    /* Foco visible para teclado (accesibilidad) */
+    :focus-visible{outline:2px solid var(--ap-pblue);outline-offset:2px;border-radius:8px}
+    input:focus,select:focus,textarea:focus{border-color:var(--ap-pblue) !important;box-shadow:0 0 0 3px rgba(0,113,227,.18) !important;outline:none}
+    /* Imágenes nítidas y sin saltos */
+    img{max-width:100%;height:auto;image-rendering:auto}
+    /* Bolsa: sombra más fina y esquinas redondeadas */
+    #cart-drawer{box-shadow:-20px 0 60px -20px rgba(0,0,0,.35)}
+    @media(max-width:640px){#cart-drawer{border-top-left-radius:20px;border-bottom-left-radius:20px}}
+    /* Pie de página con línea fina */
+    #contact-footer{border-top:1px solid var(--ap-hair) !important}
+    /* Barras de desplazamiento discretas */
+    *{scrollbar-width:thin;scrollbar-color:var(--ap-hair) transparent}
+    /* Respeta a quien prefiere menos movimiento */
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+    }
+
+    /* ===== EXPERIENCIA ELEGANTE ===== */
+    /* Fondo del inicio con resplandor suave en movimiento */
+    #hero{position:relative;isolation:isolate}
+    #hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+      background:radial-gradient(60% 50% at 18% 20%,rgba(0,113,227,.14),transparent 70%),
+                 radial-gradient(50% 45% at 85% 30%,rgba(212,175,55,.16),transparent 70%),
+                 radial-gradient(55% 50% at 55% 95%,rgba(150,120,255,.10),transparent 70%);
+      background-size:140% 140%;animation:heroGlow 18s ease-in-out infinite alternate}
+    @keyframes heroGlow{0%{background-position:0% 0%}100%{background-position:100% 100%}}
+    /* Aparición suave de las secciones al bajar */
+    html.js-rv .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+    html.js-rv .rv.rv-in{opacity:1;transform:none}
+    /* Barra de progreso de lectura */
+    #scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;transform-origin:0 50%;transform:scaleX(0);pointer-events:none;
+      background:linear-gradient(90deg,var(--ap-pblue),#D4AF37)}
+    /* Botones principales con brillo sutil */
+    .hero-btn-primary{position:relative;overflow:hidden}
+    .hero-btn-primary::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+      background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:btnShine 5s ease-in-out infinite}
+    @keyframes btnShine{0%,70%{left:-60%}100%{left:130%}}
+    /* Imágenes de perfume con sombra proyectada elegante */
+    .card-silloria img{filter:drop-shadow(0 14px 18px rgba(0,0,0,.18))}
+    /* Botón de bolsa: pulso suave al agregar */
+    #top-navbar button[onclick*="toggleCartDrawer"]{box-shadow:0 6px 18px -6px rgba(0,113,227,.55)}
+
+    /* ===== TIENDA TIPO APPLE: profundidad y movimiento ===== */
+    .themed-subbox{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 30px -18px rgba(0,0,0,.25) !important;-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px)}
+    html.dark .themed-subbox{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 30px -18px rgba(0,0,0,.7) !important}
+    /* Vial del inicio flotando */
+    .hero-vial-card{animation:floatY 6.5s ease-in-out infinite;will-change:transform}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .hero-glow{will-change:transform}
+    /* Entradas escalonadas del inicio */
+    .hero-sub,.hero-cta,.hero-trust-list li,.hero-steps li{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) backwards}
+    .hero-sub{animation-delay:.25s}.hero-cta{animation-delay:.4s}
+    .hero-trust-list li:nth-child(1){animation-delay:.55s}.hero-trust-list li:nth-child(2){animation-delay:.65s}
+    .hero-trust-list li:nth-child(3){animation-delay:.75s}.hero-trust-list li:nth-child(4){animation-delay:.85s}
+    .hero-steps li:nth-child(1){animation-delay:.6s}.hero-steps li:nth-child(2){animation-delay:.75s}.hero-steps li:nth-child(3){animation-delay:.9s}
+    @keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    /* Tarjetas: entrada escalonada (backwards = no estorba al hover) */
+    .card-silloria{animation:cardIn .7s cubic-bezier(.2,.7,.2,1) backwards}
+    .card-silloria:nth-child(2){animation-delay:.06s}.card-silloria:nth-child(3){animation-delay:.12s}
+    .card-silloria:nth-child(4){animation-delay:.18s}.card-silloria:nth-child(5){animation-delay:.24s}
+    .card-silloria:nth-child(6){animation-delay:.3s}.card-silloria:nth-child(n+7){animation-delay:.36s}
+    @keyframes cardIn{from{opacity:0;transform:translateY(34px) scale(.96)}to{opacity:1;transform:none}}
+    /* Inclinación 3D al pasar el mouse (solo computadora) */
+    @media (hover:hover) and (pointer:fine){
+      html .card-silloria.tilt-on{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-6px) !important;transition:transform .15s ease-out,box-shadow .3s ease !important;
+        box-shadow:0 2px 6px rgba(0,0,0,.06),0 28px 50px -20px rgba(0,0,0,.28) !important}
+    }
+    /* Títulos de sección con línea degradada animada */
+    .cauldron h3::after,.faq h3::after{content:"";display:block;width:56px;height:3px;border-radius:3px;margin:.6rem auto 0;
+      background:linear-gradient(90deg,var(--ap-pblue),#D4AF37,var(--ap-pblue));background-size:200% 100%;animation:lineFlow 3.5s linear infinite}
+    @keyframes lineFlow{to{background-position:200% 0}}
+    /* Botón de la bolsa: late al agregar */
+    @keyframes bagPop{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+    #top-navbar button.bag-pop{animation:bagPop .45s ease}
+    /* Entrada general de la página */
+    body{animation:pageIn .6s ease both}
+    @keyframes pageIn{from{opacity:0}to{opacity:1}}
   </style>
 </head>
 <body class="flex flex-col antialiased selection:bg-[#FF8A00] selection:text-black min-h-screen w-full">
@@ -3418,6 +3517,69 @@ pyRender();
   var pv = document.getElementById('pv-img');
   if (pv) new MutationObserver(function () { enqueue(pv); }).observe(pv, { attributes: true, attributeFilter: ['src'] });
   scan(); setTimeout(scan, 1200);
+})();
+</script>
+<script>
+(function(){
+  try{
+    document.documentElement.classList.add('js-rv');
+    var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('rv-in');io.unobserve(e.target);}});
+    },{threshold:.08,rootMargin:'0px 0px -6% 0px'}):null;
+    ['#caldero','#curated-shelf-section','#preguntas','#contact-footer'].forEach(function(sel){
+      var el=document.querySelector(sel); if(!el) return;
+      el.classList.add('rv'); if(io) io.observe(el); else el.classList.add('rv-in');
+    });
+    var bar=document.createElement('div'); bar.id='scroll-progress'; document.body.appendChild(bar);
+    var busy=false;
+    function onScroll(){ if(busy) return; busy=true;
+      requestAnimationFrame(function(){
+        var h=document.documentElement.scrollHeight-window.innerHeight, y=window.scrollY||0;
+        bar.style.transform='scaleX('+(h>0?Math.min(1,y/h):0)+')';
+        var g=document.querySelector('#hero .hero-glow'); if(g&&y<900) g.style.transform='translate3d(0,'+(y*.18)+'px,0)';
+        busy=false;
+      });
+    }
+    window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  try{
+    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var cur=null,raf=0;
+    function reset(c){ if(!c) return; c.classList.remove('tilt-on'); c.style.removeProperty('--rx'); c.style.removeProperty('--ry'); }
+    document.addEventListener('pointermove',function(e){
+      if(e.pointerType!=='mouse') return;
+      var c=e.target.closest?e.target.closest('.card-silloria'):null;
+      if(c!==cur){ reset(cur); cur=c; }
+      if(!c) return;
+      if(raf) return;
+      raf=requestAnimationFrame(function(){
+        raf=0; if(!cur) return;
+        var r=cur.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+        cur.classList.add('tilt-on');
+        cur.style.setProperty('--ry',(x*8).toFixed(2)+'deg');
+        cur.style.setProperty('--rx',(-y*8).toFixed(2)+'deg');
+      });
+    },{passive:true});
+    document.addEventListener('pointerleave',function(){ reset(cur); cur=null; },true);
+  }catch(e){}
+})();
+(function(){
+  /* Latido del botón de la bolsa cada vez que se agrega algo */
+  try{
+    var last=0;
+    setInterval(function(){
+      var b=document.querySelector('#top-navbar button[onclick*="toggleCartDrawer"]'); if(!b) return;
+      var n=(b.textContent.match(/\d+/)||[0])[0]|0;
+      if(n>last){ b.classList.remove('bag-pop'); void b.offsetWidth; b.classList.add('bag-pop'); }
+      last=n;
+    },400);
+  }catch(e){}
 })();
 </script>
 </body>
