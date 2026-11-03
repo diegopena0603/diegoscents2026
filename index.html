@@ -849,6 +849,25 @@
     /* Entrada general de la página */
     body{animation:pageIn .6s ease both}
     @keyframes pageIn{from{opacity:0}to{opacity:1}}
+
+    /* ===== RENDIMIENTO: lo que pesaba se quita o se vuelve ligero ===== */
+    body{text-rendering:auto;animation:none}
+    p{text-wrap:auto}
+    *{scrollbar-width:auto;scrollbar-color:auto}
+    /* el desenfoque en muchas cajas era lo más pesado: se queda solo en la barra superior */
+    .themed-subbox{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+    #top-navbar{-webkit-backdrop-filter:saturate(160%) blur(12px);backdrop-filter:saturate(160%) blur(12px)}
+    /* sombras por filtro en cada foto: fuera */
+    .card-silloria img{filter:none}
+    /* fondo del inicio estático (animar el fondo repinta toda la pantalla) */
+    #hero::before{animation:none;background-size:100% 100%}
+    .cauldron h3::after,.faq h3::after{animation:none}
+    /* brillo del botón con transform (ya no mueve el diseño en cada cuadro) */
+    .hero-btn-primary::after{left:0;animation:btnShine2 5s ease-in-out infinite}
+    @keyframes btnShine2{0%,70%{transform:translateX(-160%) skewX(-20deg)}100%{transform:translateX(420%) skewX(-20deg)}}
+    /* lo que está lejos en la página no se dibuja hasta que se acerca */
+    #preguntas,#contact-footer{content-visibility:auto;contain-intrinsic-size:auto 520px}
+    .card-silloria{contain:layout paint}
   </style>
 </head>
 <body class="flex flex-col antialiased selection:bg-[#FF8A00] selection:text-black min-h-screen w-full">
@@ -3570,15 +3589,16 @@ pyRender();
   }catch(e){}
 })();
 (function(){
-  /* Latido del botón de la bolsa cada vez que se agrega algo */
+  /* Latido del botón de la bolsa cada vez que se agrega algo (sin temporizador) */
   try{
-    var last=0;
-    setInterval(function(){
-      var b=document.querySelector('#top-navbar button[onclick*="toggleCartDrawer"]'); if(!b) return;
-      var n=(b.textContent.match(/\d+/)||[0])[0]|0;
+    var b=document.querySelector('#top-navbar button[onclick*="toggleCartDrawer"]'); if(!b) return;
+    function num(){ return ((b.textContent.match(/\d+/)||[0])[0])|0; }
+    var last=num();
+    new MutationObserver(function(){
+      var n=num();
       if(n>last){ b.classList.remove('bag-pop'); void b.offsetWidth; b.classList.add('bag-pop'); }
       last=n;
-    },400);
+    }).observe(b,{childList:true,subtree:true,characterData:true});
   }catch(e){}
 })();
 </script>
